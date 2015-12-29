@@ -1,0 +1,8 @@
+"theship"
+{
+	"base"	"base"
+	"title"	"The Ship"
+	"maps"	"^ttt_"
+	"menusystem"	"1"
+	"workshopid"	"73737373"
+}
