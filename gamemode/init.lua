@@ -11,6 +11,10 @@ include("utils/arrays.lua")
 include("gamemanager/killmode.lua")
 
 PrintTable(Arrays)
+
+function GM:PlayerInitialSpawn(ply)
+end
+
 function GM:PlayerLoadout(ply)
     ply:Give("weapon_shotgun")
     ply:Give("weapon_ar2")
