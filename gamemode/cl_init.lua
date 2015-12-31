@@ -3,7 +3,7 @@ LANGS = {}
 include("lang/at.lua")
 include("lang/de.lua")
 include("lang/en.lua")
-include("gui/gui.lua")
+
 
 surface.CreateFont("ProgBar", {
     font = "Arial",
@@ -26,4 +26,7 @@ local function setLang(ply, cmd, args)
     LANG = LANGS[args[1]]
 end
 
+LANG = LANGS["en"]
 concommand.Add("setLang", setLang)
+
+include("gui/gui.lua")

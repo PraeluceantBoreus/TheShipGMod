@@ -28,7 +28,7 @@ end
 
 function drawHealth()
     
-    
+    client = LocalPlayer()
     local padd_top = ScrH()-(height+padding)
     draw.RoundedBox(rounding,padding,padd_top,width,height, Color(0,0,0,128))
     local width = width - 2 * padding
@@ -37,7 +37,7 @@ function drawHealth()
     ProgBar.drawBar(100,client:Health(),margin,padd_top,width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
      padd_top = padd_top + ProgBar.def_height + padding
     if IsValid(weapon()) and maxClip() > 0 then
-    ProgBar.drawBar(maxClip(),clipAmmo(),margin,padd_top,width,-1,-1,Color(196,127,0,255),clipAmmo().." + "..currAmmo())
+    ProgBar.drawBar(maxClip(),clipAmmo(),margin,padd_top,width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
     end
 end
 
