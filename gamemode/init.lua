@@ -2,6 +2,7 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
 AddCSLuaFile("gui/gui.lua")
+AddCSLuaFile("gui/cs_progressbar.lua")
 AddCSLuaFile("gui/healthco.lua")
 
 
