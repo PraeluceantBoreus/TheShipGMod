@@ -20,6 +20,7 @@ local function drawBar(maxVal, currVal, posx, posy, width, height, round, color,
     
     draw.RoundedBox(round, posx, posy, width, height, darkColor)
     if curr_width > 0 then
+        if curr_width < 2 * round then curr_width = 2 * round end
         draw.RoundedBox(round, posx, posy, curr_width, height, color)
     end
     
@@ -38,3 +39,7 @@ local function drawBar(maxVal, currVal, posx, posy, width, height, round, color,
 end
 
 ProgBar.drawBar = drawBar
+ProgBar.def_color = def_color
+ProgBar.def_height = def_height
+ProgBar.def_round = def_round
+ProgBar.def_width = def_width

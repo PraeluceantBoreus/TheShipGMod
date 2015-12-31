@@ -5,8 +5,6 @@ include("lang/de.lua")
 include("lang/en.lua")
 include("gui/gui.lua")
 
-PrintTable(LANG)
-
 surface.CreateFont("ProgBar", {
     font = "Arial",
     size = 26,
@@ -24,6 +22,8 @@ surface.CreateFont("ProgBar", {
     outline = false,
 })
 
-concommand.Add("setLang", function(ply, cmd, args)
+local function setLang(ply, cmd, args)
     LANG = LANGS[args[1]]
-end)
+end
+
+concommand.Add("setLang", setLang)
