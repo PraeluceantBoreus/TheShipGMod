@@ -13,7 +13,7 @@ end
 local function shuffle(arr)
     local steamplys = {}
     for plynr, ply in pairs(arr) do
-        table.insert(steamplys, ply:SteamID64())
+        table.insert(steamplys, ply)
     end
     local count = length(steamplys)
     for plynr, ply in pairs(steamplys) do
@@ -23,6 +23,13 @@ local function shuffle(arr)
         steamplys[plynr] = oldply
     end
     return steamplys
+end
+
+local function toSteam(arr)
+    local ret = {}
+    for key, val in pairs(arr) do
+        table.insert(ret, val:SteamID64())
+    end
 end
 
 Arrays.shuffle = shuffle

@@ -9,6 +9,8 @@ AddCSLuaFile("gui/gui.lua")
 AddCSLuaFile("gui/cs_progressbar.lua")
 AddCSLuaFile("gui/healthco.lua")
 
+AddCSLuaFile("data/identities.lua")
+
 
 include("shared.lua")
 include("utils/arrays.lua")
@@ -30,6 +32,15 @@ end
 function printpls()
     PrintTable(player.GetAll())
     PrintTable(Arrays.shuffle(player.GetAll()))
+    for nr, ply in pairs(player.GetAll()) do
+        print(ply:Nick().." "..ply:UserID())
+    end
+end
+
+function baum()
+    for nr, ply in pairs(player.GetAll()) do
+        print(ply:EntIndex())
+    end
 end
 
 concommand.Add("pllist", printpls)
