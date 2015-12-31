@@ -1,5 +1,6 @@
 include("cs_progressbar.lua")
 
+
 local client = LocalPlayer()
 local height = 200
 local width = 300
@@ -16,7 +17,7 @@ function drawHealth()
     local padd_top = ScrH()-(height+padding)
     draw.RoundedBox(rounding,padding,padd_top,width,height, Color(0,0,0,128))
 --     draw.RoundedBox(rounding,padding,padd_top,width,bar_height, Color(128,0,0,256))
-    ProgBar.drawBar(100,client:Health(),padding,padd_top,width,-1,-1,Color(96,0,0,255),"Helath "..client:Health())
+    ProgBar.drawBar(100,client:Health(),padding,padd_top,width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
 end
 
 function drawCross()

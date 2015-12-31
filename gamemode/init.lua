@@ -1,6 +1,10 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
+AddCSLuaFile("lang/at.lua")
+AddCSLuaFile("lang/de.lua")
+AddCSLuaFile("lang/en.lua")
+
 AddCSLuaFile("gui/gui.lua")
 AddCSLuaFile("gui/cs_progressbar.lua")
 AddCSLuaFile("gui/healthco.lua")

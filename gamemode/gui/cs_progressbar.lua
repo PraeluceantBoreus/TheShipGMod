@@ -22,6 +22,19 @@ local function drawBar(maxVal, currVal, posx, posy, width, height, round, color,
     if curr_width > 0 then
         draw.RoundedBox(round, posx, posy, curr_width, height, color)
     end
+    
+    if text ~= nil then
+        local text_table = {
+            text = text,
+            font = "ProgBar",
+            pos = {posx+width/2,posy+height/2},
+            xalign = TEXT_ALIGN_CENTER,
+            yalign = TEXT_ALIGN_CENTER,
+        }
+--         draw.SimpleText(text,"ProgBar",posx+width/2,posy+height/2,Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.TextShadow(text_table, 2, 255)
+        draw.Text(text_table)
+    end
 end
 
 ProgBar.drawBar = drawBar
