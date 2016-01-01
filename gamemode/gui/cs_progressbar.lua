@@ -21,7 +21,7 @@ local function drawBar(maxVal, currVal, posx, posy, width, height, round, color,
     draw.RoundedBox(round, posx, posy, width, height, darkColor)
     if curr_width > 0 then
         if curr_width < 2 * round then curr_width = 2 * round end
-        draw.RoundedBox(round, posx, posy, curr_width, height, color)
+        draw.RoundedBox(round+1, posx+1, posy+1, curr_width-2, height-2, color)
     end
     
     if text ~= nil then

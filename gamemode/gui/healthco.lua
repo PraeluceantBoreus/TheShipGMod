@@ -11,6 +11,8 @@ local cross_width = 50
 local cross_strength = 1
 
 IDENTITY_NAME = ""
+ROUND_STATE = 0
+VICTIM_NAME = ""
 
 local function weapon()
     return client:GetActiveWeapon()
@@ -47,6 +49,14 @@ function drawHealth()
     if IsValid(weapon()) and maxClip() > 0 then
     ProgBar.drawBar(maxClip(),clipAmmo(),margin,padd_top,width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
     end
+    
+    padd_top = padd_top + ProgBar.def_height + padding
+    local vname = LANG.ROUND_WAIT
+    if ROUND_STATE == 1 then vname = VICTIM_NAME end
+    if ROUND_STATE == 2 then vname = LANG.ROUND_KILLED_FROM_HUNTER end
+    if ROUND_STATE == 3 then vname = LANG.ROUND_KILLED_VICTIM end
+    
+    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,Color(196,96,0,255),vname)
 end
 
 function drawCross()
@@ -68,6 +78,11 @@ end
 net.Receive("Identity", function()
     IDENTITY_NAME = net.ReadString()
     print("ready")
+end)
+
+net.Receive("ROUND_STATE", function()
+    ROUND_STATE = net.ReadInt(3)
+    if ROUND_STATE == 1 then VICTIM_NAME = net.ReadString() end
 end)
 
 hook.Add("HUDPaint","Health", drawHealth)

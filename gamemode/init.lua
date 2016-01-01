@@ -21,8 +21,10 @@ include("gamemanager/killmode.lua")
 PrintTable(Arrays)
 
 function GM:PlayerInitialSpawn(ply)
-    print("baum")
     Killmode.newIdentity(ply)
+    net.Start("RoundState")
+        net.WriteInt(0, 3)
+    net.Send(ply)
 end
 
 function GM:PlayerLoadout(ply)
@@ -47,5 +49,6 @@ function baum()
 end
 
 util.AddNetworkString("Identity")
+util.AddNetworkString("RoundState")
 
 concommand.Add("pllist", printpls)
