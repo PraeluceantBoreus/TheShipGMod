@@ -10,6 +10,8 @@ local rounding = 15
 local cross_width = 50
 local cross_strength = 1
 
+IDENTITY_NAME = ""
+
 local function weapon()
     return client:GetActiveWeapon()
 end
@@ -31,11 +33,17 @@ function drawHealth()
     client = LocalPlayer()
     local padd_top = ScrH()-(height+padding)
     draw.RoundedBox(rounding,padding,padd_top,width,height, Color(0,0,0,128))
+    
+    local margin = padding
     local width = width - 2 * padding
-    local margin = 2 * padding
-    padd_top = padd_top + padding
+    
+    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,Color(0,0,127,255),IDENTITY_NAME)
+    
+    margin = 2*padding
+    padd_top = padd_top + padding + ProgBar.def_height
     ProgBar.drawBar(100,client:Health(),margin,padd_top,width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
-     padd_top = padd_top + ProgBar.def_height + padding
+    
+    padd_top = padd_top + ProgBar.def_height + padding
     if IsValid(weapon()) and maxClip() > 0 then
     ProgBar.drawBar(maxClip(),clipAmmo(),margin,padd_top,width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
     end
@@ -56,6 +64,11 @@ local function proofHide(name)
         return false
     end
 end
+
+net.Receive("Identity", function()
+    IDENTITY_NAME = net.ReadString()
+    print("ready")
+end)
 
 hook.Add("HUDPaint","Health", drawHealth)
 hook.Add("HUDPaint", "Cross", drawCross)

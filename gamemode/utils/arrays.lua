@@ -30,9 +30,11 @@ local function toSteam(arr)
     for key, val in pairs(arr) do
         table.insert(ret, val:SteamID64())
     end
+    return ret
 end
 
 Arrays.shuffle = shuffle
 Arrays.length = length
+Arrays.toSteam = toSteam
 
 PrintTable(Arrays)

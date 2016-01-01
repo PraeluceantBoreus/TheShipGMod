@@ -18,12 +18,25 @@ end
 local function newIdentity(ply)
 --     create second table for names, remove name, when in use, add name, when nobody has it, shuffle names
     local oldname = TS_Identities[ply:SteamID64()]
-    TS_Identities = table.remove(TMP_NAMES, 1)
+    TS_Identities = table.remove(TEMP_NAMES, 1)
     if oldname ~= nil then
-        table.insert(TMP_NAMES, oldname)
-        TMP_NAMES = Arrays.shuffle(TMP_NAMES)
+        table.insert(TEMP_NAMES, oldname)
+        TEMP_NAMES = Arrays.shuffle(TEMP_NAMES)
+    end
+    
+    net.Start("Identity")
+        net.WriteString(TS_Identities[ply:SteamID64()])
+    net.Send(ply)
+end
+
+function newIds()
+    for nr,ply in pairs(player.GetAll()) do
+        newIdentity(ply)
     end
 end
 
+
+
 Killmode.newVictims = newVictims
 Killmode.TS_Hunter_Victim = TS_Hunter_Victim
+Killmode.newIdentity = newIdentity

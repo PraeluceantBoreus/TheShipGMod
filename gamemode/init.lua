@@ -15,11 +15,14 @@ AddCSLuaFile("data/identities.lua")
 include("shared.lua")
 include("utils/arrays.lua")
 
+include("data/identities.lua")
 include("gamemanager/killmode.lua")
 
 PrintTable(Arrays)
 
 function GM:PlayerInitialSpawn(ply)
+    print("baum")
+    Killmode.newIdentity(ply)
 end
 
 function GM:PlayerLoadout(ply)
@@ -42,5 +45,7 @@ function baum()
         print(ply:EntIndex())
     end
 end
+
+util.AddNetworkString("Identity")
 
 concommand.Add("pllist", printpls)
