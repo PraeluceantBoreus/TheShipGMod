@@ -55,21 +55,21 @@ function drawHealth()
     if ROUND_STATE == 1 then vname = VICTIM_NAME end
     if ROUND_STATE == 2 then vname = LANG.ROUND_KILLED_FROM_HUNTER end
     if ROUND_STATE == 3 then vname = LANG.ROUND_KILLED_VICTIM end
+    if ROUND_STATE == 5 then vname = LANG.ROUND_JOINED end
+    
+    
     
     local totalTime = CONF.RoundTime
-    local timeLeft = timer.TimeLeft("Round")
+    local timeLeft = timer.TimeLeft("RoundTimer")
     
     
     
     if ROUND_STATE == 4 then
-        print("sdfses")
         totalTime = CONF.PrepareTime
-        timeLeft = timer.TimeLeft("Prepare")
     end
     
-    local a = "false"
-    if timer.Exists("Prepare") then a = "true" end
-    timeLeft = timeLeft
+    
+    if timeLeft == nil then timeLeft = totalTime end
     
     ProgBar.drawBar(totalTime,timeLeft,margin,padd_top,width,-1,-1,Color(196,96,0,255),vname)
 end
@@ -95,9 +95,9 @@ net.Receive("Identity", function()
 end)
 
 net.Receive("RoundState", function()
-    local rstate = net.ReadInt(3)
-    print("aasf"..rstate)
-    if ROUND_STATE == 1 then VICTIM_NAME = net.ReadString() end
+    ROUND_STATE = net.ReadInt(4)
+    local str = net.ReadString()
+    if ROUND_STATE == 1 then VICTIM_NAME = str end
 end)
 
 hook.Add("HUDPaint","Health", drawHealth)

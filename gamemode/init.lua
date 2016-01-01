@@ -17,20 +17,43 @@ include("utils/arrays.lua")
 
 include("data/identities.lua")
 include("gamemanager/killmode.lua")
+include("gamemanager/timer.lua")
 
 PrintTable(Arrays)
 
+--RoundStates:
+--1 Hunting
+--2 Killed from Hunter
+--3 Hunting finished
+--4 Preparing
+--5 Join Round
+
 function GM:PlayerInitialSpawn(ply)
     Killmode.newIdentity(ply)
+    local rstate = 4
+    local curr_time = timer.TimeLeft("Prepare")
+    if Timer.isRound() then 
+        rstate = 5
+        curr_time = timer.TimeLeft("Round")
+    end
+    net.Start("Timer")
+        local isround = 0
+        if Timer.isRound() then
+            isround = 1
+        end
+        net.WriteUInt(0,2)
+        net.WriteUInt(curr_time,16)
+    net.Send(ply)
     net.Start("RoundState")
-        net.WriteInt(4, 3)
+        net.WriteInt(rstate,4)
+        net.WriteString("")
+        net.WriteInt(curr_time+1,32)
     net.Send(ply)
 end
 
 function GM:PlayerLoadout(ply)
     ply:Give("weapon_shotgun")
     ply:Give("weapon_ar2")
-    ply:Give("gmod_tool")
     ply:Give("weapon_physgun")
 end
 
@@ -50,5 +73,6 @@ end
 
 util.AddNetworkString("Identity")
 util.AddNetworkString("RoundState")
+util.AddNetworkString("Timer")
 
 concommand.Add("pllist", printpls)

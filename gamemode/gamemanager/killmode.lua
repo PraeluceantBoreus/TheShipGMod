@@ -9,7 +9,7 @@ local TS_Identities = {}
 local function newVictim(hunter, victim)
     TS_Hunter_Victim[hunter] = victim
     net.Start("RoundState")
-        net.WriteInt(1)
+        net.WriteInt(1,4)
         net.WriteString(TS_Identities[victim:SteamID64()])
     net.Send(hunter)
 end
@@ -27,7 +27,7 @@ end
 local function newIdentity(ply)
 --     create second table for names, remove name, when in use, add name, when nobody has it, shuffle names
     local oldname = TS_Identities[ply:SteamID64()]
-    TS_Identities = table.remove(TEMP_NAMES, 1)
+    TS_Identities[ply:SteamID64()] = table.remove(TEMP_NAMES, 1)
     if oldname ~= nil then
         table.insert(TEMP_NAMES, oldname)
         TEMP_NAMES = Arrays.shuffle(TEMP_NAMES)

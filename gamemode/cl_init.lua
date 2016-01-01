@@ -28,5 +28,14 @@ end
 
 LANG = LANGS["en"]
 concommand.Add("setLang", setLang)
+timer.Create("RoundTimer",100,0,function() end)
 
 include("gui/gui.lua")
+
+net.Receive("Timer", function()
+    local tim = net.ReadUInt(2)
+    local time_left = net.ReadUInt(16)
+    timer.Stop("RoundTimer")
+    timer.Adjust("RoundTimer", time_left, 0, function() end)
+    timer.Start("RoundTimer")
+end)
