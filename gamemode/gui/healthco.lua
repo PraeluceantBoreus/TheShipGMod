@@ -10,9 +10,20 @@ local rounding = 15
 local cross_width = 50
 local cross_strength = 1
 
+local rs_color = {}
+rs_color[1] = Color(0,0,127,255)
+rs_color[2] = Color(127,0,0,255)
+rs_color[3] = Color(0,127,0,255)
+rs_color[4] = Color(127,127,127,255)
+rs_color[5] = Color(127,127,127,255)
+
 IDENTITY_NAME = ""
-ROUND_STATE = 0
+ROUND_STATE = 5
 VICTIM_NAME = ""
+
+local function getColor()
+    return rs_color[ROUND_STATE]
+end
 
 local function weapon()
     return client:GetActiveWeapon()
@@ -39,7 +50,7 @@ function drawHealth()
     local margin = padding
     local width = width - 2 * padding
     
-    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,Color(0,0,127,255),IDENTITY_NAME)
+    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,getColor(),IDENTITY_NAME)
     
     margin = 2*padding
     padd_top = padd_top + padding + ProgBar.def_height
@@ -71,17 +82,20 @@ function drawHealth()
     
     if timeLeft == nil then timeLeft = totalTime end
     
-    ProgBar.drawBar(totalTime,timeLeft,margin,padd_top,width,-1,-1,Color(196,96,0,255),vname)
+    ProgBar.drawBar(totalTime,timeLeft,margin,padd_top,width,-1,-1,getColor(),vname)
 end
 
 function drawCross()
     
-    draw.RoundedBox(0,ScrW()/2-cross_width/2,ScrH()/2-cross_strength/2,cross_width,cross_strength, Color(0,0,0,255))
-    draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2-cross_width/2,cross_strength,cross_width, Color(0,0,0,255))
+    draw.RoundedBox(0,ScrW()/2-cross_width/2,ScrH()/2-cross_strength/2,cross_width,cross_strength, getColor())
+    draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2-cross_width/2,cross_strength,cross_width, getColor())
 end
 
 local toHide = {
-    ["CHudHealth"] = true
+    ["CHudHealth"] = true,
+    ["CHudAmmo"] = true,
+    ["CHudCrosshair"] = true,
+    ["CHudSecondaryAmmo"] = true
 }
 
 local function proofHide(name)
@@ -96,9 +110,12 @@ end)
 
 net.Receive("RoundState", function()
     ROUND_STATE = net.ReadInt(4)
-    local str = net.ReadString()
-    if ROUND_STATE == 1 then VICTIM_NAME = str end
 end)
+
+net.Receive("Victim", function()
+    VICTIM_NAME = net.ReadString()
+end)
+
 
 hook.Add("HUDPaint","Health", drawHealth)
 hook.Add("HUDPaint", "Cross", drawCross)

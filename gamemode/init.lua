@@ -19,8 +19,6 @@ include("data/identities.lua")
 include("gamemanager/killmode.lua")
 include("gamemanager/timer.lua")
 
-PrintTable(Arrays)
-
 --RoundStates:
 --1 Hunting
 --2 Killed from Hunter
@@ -74,5 +72,6 @@ end
 util.AddNetworkString("Identity")
 util.AddNetworkString("RoundState")
 util.AddNetworkString("Timer")
+util.AddNetworkString("Victim")
 
 concommand.Add("pllist", printpls)

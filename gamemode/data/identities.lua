@@ -18,4 +18,3 @@ local function fillTemp()
 end
 
 fillTemp()
-PrintTable(TEMP_NAMES)

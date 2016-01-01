@@ -7,9 +7,11 @@ local TS_Hunter_Victim = {}
 local TS_Identities = {}
 
 local function newVictim(hunter, victim)
-    TS_Hunter_Victim[hunter] = victim
+    TS_Hunter_Victim[hunter:SteamID64()] = victim:SteamID64()
     net.Start("RoundState")
         net.WriteInt(1,4)
+    net.Send(hunter)
+    net.Start("Victim")
         net.WriteString(TS_Identities[victim:SteamID64()])
     net.Send(hunter)
 end
@@ -54,7 +56,7 @@ hook.Add("PlayerDisconnected", "GiveBackName", function(ply)
     table.remove(TS_Identities, ply:SteamID64())
     for hunt,vic in pairs(TS_Hunter_Victim) do
         if vic == ply:SteamID64() then
-            newVictim(hunt,TS_Identities[ply:SteamID64()])
+            newVictim(hunt,player.GetBySteamID64(TS_Identities[ply:SteamID64()]))
         end
     end
     table.remove(TS_Hunter_Victim, ply:SteamID64())
@@ -64,4 +66,5 @@ end)
 
 Killmode.newVictims = newVictims
 Killmode.TS_Hunter_Victim = TS_Hunter_Victim
+Killmode.TS_Identities = TS_Identities
 Killmode.newIdentity = newIdentity
