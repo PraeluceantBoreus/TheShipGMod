@@ -23,7 +23,7 @@ PrintTable(Arrays)
 function GM:PlayerInitialSpawn(ply)
     Killmode.newIdentity(ply)
     net.Start("RoundState")
-        net.WriteInt(0, 3)
+        net.WriteInt(4, 3)
     net.Send(ply)
 end
 

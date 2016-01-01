@@ -44,17 +44,22 @@ function newIds()
     end
 end
 
+local function roundEnd()
+end
+
+
 hook.Add("PlayerDisconnected", "GiveBackName", function(ply)
     local name = TS_Identities[ply:SteamID64()]
     if name ~= nil then table.insert(TEMP_NAMES, name) end
     table.remove(TS_Identities, ply:SteamID64())
     for hunt,vic in pairs(TS_Hunter_Victim) do
-        if vic == ply:SteamID64 then
+        if vic == ply:SteamID64() then
             newVictim(hunt,TS_Identities[ply:SteamID64()])
         end
     end
     table.remove(TS_Hunter_Victim, ply:SteamID64())
 end)
+
 
 
 Killmode.newVictims = newVictims
