@@ -10,5 +10,14 @@ CONF.PrepareTime = 20
 
 CONF.MinPlayers = 2
 
+R_STATE = {}
+
+R_STATE.PREPARING = 0
+R_STATE.HUNTING = 1
+R_STATE.KILLED = 2
+R_STATE.FINISHED = 3
+R_STATE.PREPARING = 4
+R_STATE.JOIN = 5
+
 function GM:Initialize()
 end

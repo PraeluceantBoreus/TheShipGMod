@@ -28,6 +28,8 @@ include("gamemanager/msg_events.lua")
 --4 Preparing
 --5 Join Round
 
+
+
 function GM:PlayerInitialSpawn(ply)
     Killmode.newIdentity(ply)
     local rstate = 4
@@ -44,11 +46,7 @@ function GM:PlayerInitialSpawn(ply)
         net.WriteUInt(0,2)
         net.WriteUInt(curr_time,16)
     net.Send(ply)
-    net.Start("RoundState")
-        net.WriteInt(rstate,4)
-        net.WriteString("")
-        net.WriteInt(curr_time+1,32)
-    net.Send(ply)
+    Killmode.RoundState(ply,rstate)
 end
 
 function GM:PlayerLoadout(ply)

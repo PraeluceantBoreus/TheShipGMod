@@ -1,9 +1,10 @@
 local function msg(msg, data)
     local prepared = LANG[msg]
+    print("MSG: "..prepared)
     for nr,item in pairs(data) do
-        prepared = string.sub(prepared, "{"..nr.."}", item)
+        prepared = string.Replace(prepared, "{"..nr.."}", item)
     end
-    notification.AddLegacy(prepared,NOTIFY_HINT,3)
+    notification.AddLegacy(prepared,NOTIFY_HINT,10)
 end
 
 net.Receive("Message", function()

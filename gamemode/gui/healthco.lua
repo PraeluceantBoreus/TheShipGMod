@@ -63,10 +63,10 @@ function drawHealth()
     
     padd_top = padd_top + ProgBar.def_height + padding
     local vname = LANG.ROUND_WAIT
-    if ROUND_STATE == 1 then vname = VICTIM_NAME end
-    if ROUND_STATE == 2 then vname = LANG.ROUND_KILLED_FROM_HUNTER end
-    if ROUND_STATE == 3 then vname = LANG.ROUND_KILLED_VICTIM end
-    if ROUND_STATE == 5 then vname = LANG.ROUND_JOINED end
+    if ROUND_STATE == R_STATE.HUNTING then vname = VICTIM_NAME end
+    if ROUND_STATE == R_STATE.KILLED then vname = LANG.ROUND_KILLED_FROM_HUNTER end
+    if ROUND_STATE == R_STATE.FINISHED then vname = LANG.ROUND_KILLED_VICTIM end
+    if ROUND_STATE == R_STATE.JOINED then vname = LANG.ROUND_JOINED end
     
     
     
