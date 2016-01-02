@@ -31,6 +31,7 @@ concommand.Add("setLang", setLang)
 timer.Create("RoundTimer",100,0,function() end)
 
 include("gui/gui.lua")
+include("gui/messages.lua")
 
 net.Receive("Timer", function()
     local tim = net.ReadUInt(2)

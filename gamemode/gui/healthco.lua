@@ -1,5 +1,5 @@
 include("cs_progressbar.lua")
-
+--make message table
 
 local client = LocalPlayer()
 local height = 200
@@ -89,6 +89,7 @@ function drawCross()
     
     draw.RoundedBox(0,ScrW()/2-cross_width/2,ScrH()/2-cross_strength/2,cross_width,cross_strength, getColor())
     draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2-cross_width/2,cross_strength,cross_width, getColor())
+    
 end
 
 local toHide = {

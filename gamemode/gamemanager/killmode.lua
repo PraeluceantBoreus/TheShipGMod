@@ -5,6 +5,15 @@
 Killmode = {}
 local TS_Hunter_Victim = {}
 local TS_Identities = {}
+local TS_Round_State = {}
+
+local function isHunter(st_h, st_v)
+    return TS_Hunter_Victim[st_h] == st_v
+end
+
+local function name(ply)
+    return TS_Identities[ply:SteamID64()]
+end
 
 local function newVictim(hunter, victim)
     TS_Hunter_Victim[hunter:SteamID64()] = victim:SteamID64()
@@ -68,3 +77,5 @@ Killmode.newVictims = newVictims
 Killmode.TS_Hunter_Victim = TS_Hunter_Victim
 Killmode.TS_Identities = TS_Identities
 Killmode.newIdentity = newIdentity
+Killmode.isHunter = isHunter
+Killmode.name = name

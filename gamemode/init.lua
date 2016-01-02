@@ -8,6 +8,7 @@ AddCSLuaFile("lang/en.lua")
 AddCSLuaFile("gui/gui.lua")
 AddCSLuaFile("gui/cs_progressbar.lua")
 AddCSLuaFile("gui/healthco.lua")
+AddCSLuaFile("gui/messages.lua")
 
 AddCSLuaFile("data/identities.lua")
 
@@ -18,6 +19,7 @@ include("utils/arrays.lua")
 include("data/identities.lua")
 include("gamemanager/killmode.lua")
 include("gamemanager/timer.lua")
+include("gamemanager/msg_events.lua")
 
 --RoundStates:
 --1 Hunting
@@ -73,5 +75,6 @@ util.AddNetworkString("Identity")
 util.AddNetworkString("RoundState")
 util.AddNetworkString("Timer")
 util.AddNetworkString("Victim")
+util.AddNetworkString("Message")
 
 concommand.Add("pllist", printpls)
