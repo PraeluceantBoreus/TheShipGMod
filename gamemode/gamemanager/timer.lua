@@ -25,7 +25,7 @@ local function roundFinish()
     timer.Start("Prepare")
     CURR_ROUND = false
     net.Start("RoundState")
-    net.WriteInt(4,4)
+    net.WriteInt(R_STATE.PREPARING,4)
     net.Broadcast()
 end
 
@@ -37,7 +37,7 @@ local function prepareFinish()
         CURR_ROUND = true
         Killmode.newVictims()
         net.Start("RoundState")
-        net.WriteInt(1,4)
+        net.WriteInt(R_STATE.HUNTING,4)
         net.Broadcast()
     else
         prepPrepTimer()

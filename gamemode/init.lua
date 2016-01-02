@@ -32,10 +32,10 @@ include("gamemanager/msg_events.lua")
 
 function GM:PlayerInitialSpawn(ply)
     Killmode.newIdentity(ply)
-    local rstate = 4
+    local rstate = R_STATE.PREPARING
     local curr_time = timer.TimeLeft("Prepare")
     if Timer.isRound() then 
-        rstate = 5
+        rstate = R_STATE.JOIN
         curr_time = timer.TimeLeft("Round")
     end
     net.Start("Timer")
@@ -46,7 +46,7 @@ function GM:PlayerInitialSpawn(ply)
         net.WriteUInt(0,2)
         net.WriteUInt(curr_time,16)
     net.Send(ply)
-    Killmode.RoundState(ply,rstate)
+    Killmode.roundState(ply,rstate)
 end
 
 function GM:PlayerLoadout(ply)
@@ -55,24 +55,8 @@ function GM:PlayerLoadout(ply)
     ply:Give("weapon_physgun")
 end
 
-function printpls()
-    PrintTable(player.GetAll())
-    PrintTable(Arrays.shuffle(player.GetAll()))
-    for nr, ply in pairs(player.GetAll()) do
-        print(ply:Nick().." "..ply:UserID())
-    end
-end
-
-function baum()
-    for nr, ply in pairs(player.GetAll()) do
-        print(ply:EntIndex())
-    end
-end
-
 util.AddNetworkString("Identity")
 util.AddNetworkString("RoundState")
 util.AddNetworkString("Timer")
 util.AddNetworkString("Victim")
 util.AddNetworkString("Message")
-
-concommand.Add("pllist", printpls)

@@ -1,6 +1,5 @@
 local function msg(msg, data)
     local prepared = LANG[msg]
-    print("MSG: "..prepared)
     for nr,item in pairs(data) do
         prepared = string.Replace(prepared, "{"..nr.."}", item)
     end

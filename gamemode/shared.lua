@@ -5,8 +5,8 @@ GM.Website = "N/A"
 
 CONF = {}
 
-CONF.RoundTime = 350
-CONF.PrepareTime = 20
+CONF.RoundTime = 20
+CONF.PrepareTime = 10
 
 CONF.MinPlayers = 2
 

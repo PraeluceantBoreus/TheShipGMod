@@ -75,7 +75,7 @@ function drawHealth()
     
     
     
-    if ROUND_STATE == 4 then
+    if ROUND_STATE == R_STATE.PREPARING then
         totalTime = CONF.PrepareTime
     end
     

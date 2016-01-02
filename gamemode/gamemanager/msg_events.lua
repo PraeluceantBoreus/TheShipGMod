@@ -1,12 +1,8 @@
 function GM:PlayerDeath(ply, weapon, killer)
-    --PrintTable(ply)
-    print(killer:SteamID64())
     local st_v = ply:SteamID64()
     local st_k = killer:SteamID64()
     local msg = "DEATH_UNFOUNDED"
     if st_k == nil then msg = "DEATH_SUICIDE" end
-    print("Victim: "..st_v)
-    print("Hunter: "..st_k)
     --hunter success
     if Killmode.isHunter(st_k, st_v) then 
         msg = "DEATH_VICTIM"

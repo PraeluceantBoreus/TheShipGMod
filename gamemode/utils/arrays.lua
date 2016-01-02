@@ -36,5 +36,3 @@ end
 Arrays.shuffle = shuffle
 Arrays.length = length
 Arrays.toSteam = toSteam
-
-PrintTable(Arrays)

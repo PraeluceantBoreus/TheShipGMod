@@ -1,7 +1,4 @@
 -- uses SteamID64
-
--- include("../utils/arrays.lua")
-
 Killmode = {}
 local TS_Hunter_Victim = {}
 local TS_Identities = {}
@@ -17,9 +14,7 @@ end
 
 local function newVictim(hunter, victim)
     TS_Hunter_Victim[hunter:SteamID64()] = victim:SteamID64()
-    net.Start("RoundState")
-        net.WriteInt(1,4)
-    net.Send(hunter)
+    Killmode.roundState(hunter, R_STATE.HUNTING)
     net.Start("Victim")
         net.WriteString(TS_Identities[victim:SteamID64()])
     net.Send(hunter)
@@ -27,17 +22,31 @@ end
 
 local function newVictims()
     local plys = Arrays.shuffle(player.GetAll())
-    local count = Arrays.length(plys)
-    print("Count: "..count)
+    local ply = nil
+    local first = nil
     for key,val in pairs(plys) do
-        newVictim(val,plys[(key%count)+1])
+        if ply == nil then
+            first = val
+        else
+            newVictim(val,ply)
+        end
+        ply = val
     end
+    newVictim(first,ply)
 end
 
 
+local function giveBackName(ply)
+    local oldname = TS_Identities[ply:SteamID64()]
+    if oldname ~= nil then
+        table.insert(TEMP_NAMES, oldname)
+        TEMP_NAMES = Arrays.shuffle(TEMP_NAMES)
+    end
+end
+
 local function newIdentity(ply)
 --     create second table for names, remove name, when in use, add name, when nobody has it, shuffle names
-    
+    giveBackName(ply)
     TS_Identities[ply:SteamID64()] = table.remove(TEMP_NAMES, 1)
     
     net.Start("Identity")
@@ -57,17 +66,10 @@ local function roundState(ply, state)
     net.Send(ply)
 end
 
-local function giveBackName(ply)
-    local oldname = TS_Identities[ply:SteamID64()]
-    if oldname ~= nil then
-        table.insert(TEMP_NAMES, oldname)
-        TEMP_NAMES = Arrays.shuffle(TEMP_NAMES)
-    end
-end
 
 local function roundEnd()
-    for nr,ply in pairs(player.GetAll()) do
-        roundState(ply,R_STATE.PREPARING)
+    for k,v in pairs(TS_Hunter_Victim) do
+        TS_Hunter_Victim = nil
     end
 end
 
