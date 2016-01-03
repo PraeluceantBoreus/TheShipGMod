@@ -44,14 +44,23 @@ local function giveBackName(ply)
     end
 end
 
+local function identities(ply)
+    net.Start("Identity")
+    net.WriteUInt(1,1)
+    net.WriteTable(TS_Identities)
+    net.Send(ply)
+end
+
 local function newIdentity(ply)
 --     create second table for names, remove name, when in use, add name, when nobody has it, shuffle names
     giveBackName(ply)
     TS_Identities[ply:SteamID64()] = table.remove(TEMP_NAMES, 1)
     
     net.Start("Identity")
+        net.WriteUInt(0,1)
+        net.WriteString(ply:SteamID64())
         net.WriteString(TS_Identities[ply:SteamID64()])
-    net.Send(ply)
+    net.Broadcast()
 end
 
 function newIds()
@@ -114,3 +123,4 @@ Killmode.isHunter = isHunter
 Killmode.name = name
 Killmode.roundState = roundState
 Killmode.roundStates = roundStates
+Killmode.identities = identities

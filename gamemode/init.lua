@@ -46,6 +46,7 @@ function GM:PlayerInitialSpawn(ply)
         net.WriteUInt(0,2)
         net.WriteUInt(curr_time,16)
     net.Send(ply)
+    Killmode.identities(ply)
     Killmode.roundState(ply,rstate)
     Killmode.roundStates(ply)
 end

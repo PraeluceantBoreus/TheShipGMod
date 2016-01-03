@@ -18,6 +18,7 @@ rs_color[4] = Color(127,127,127,255)
 rs_color[5] = Color(127,127,127,255)
 
 IDENTITY_NAME = ""
+IDENTITIES = {}
 ROUND_STATE = R_STATE.JOINED
 ROUND_STATES = {}
 VICTIM_NAME = ""
@@ -93,6 +94,9 @@ function drawCross()
     
 end
 
+function GM:HUDDrawTargetID()
+end
+
 local toHide = {
     ["CHudHealth"] = true,
     ["CHudAmmo"] = true,
@@ -107,7 +111,16 @@ local function proofHide(name)
 end
 
 net.Receive("Identity", function()
-    IDENTITY_NAME = net.ReadString()
+    local isTable = net.ReadUInt(1)
+    if isTable == 1 then
+        IDENTITIES = net.ReadTable()
+    end
+    if isTable == 0 then
+        local st_id = net.ReadString()
+        local name = net.ReadString()
+        IDENTITIES[st_id] = name
+    end
+    IDENTITY_NAME = IDENTITIES[client:SteamID64()]
 end)
 
 net.Receive("RoundState", function()
@@ -120,6 +133,7 @@ net.Receive("RoundState", function()
         local state = net.ReadInt(4)
         ROUND_STATES[st_id] = state
     end
+    ROUND_STATE = ROUND_STATES[client:SteamID64()]
 end)
 
 net.Receive("Victim", function()
