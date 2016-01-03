@@ -35,7 +35,7 @@ function GM:PlayerInitialSpawn(ply)
     local rstate = R_STATE.PREPARING
     local curr_time = timer.TimeLeft("Prepare")
     if Timer.isRound() then 
-        rstate = R_STATE.JOIN
+        rstate = R_STATE.JOINED
         curr_time = timer.TimeLeft("Round")
     end
     net.Start("Timer")
@@ -47,6 +47,7 @@ function GM:PlayerInitialSpawn(ply)
         net.WriteUInt(curr_time,16)
     net.Send(ply)
     Killmode.roundState(ply,rstate)
+    Killmode.roundStates(ply)
 end
 
 function GM:PlayerLoadout(ply)

@@ -24,9 +24,10 @@ local function roundFinish()
     prepPrepTimer()
     timer.Start("Prepare")
     CURR_ROUND = false
-    net.Start("RoundState")
-    net.WriteInt(R_STATE.PREPARING,4)
-    net.Broadcast()
+    --net.Start("RoundState")
+    --net.WriteInt(R_STATE.PREPARING,4)
+    --net.Broadcast()
+    Killmode.roundState(nil, R_STATE.PREPARING, "true")
 end
 
 local function prepareFinish()
@@ -36,9 +37,10 @@ local function prepareFinish()
         timer.Start("Round")
         CURR_ROUND = true
         Killmode.newVictims()
-        net.Start("RoundState")
-        net.WriteInt(R_STATE.HUNTING,4)
-        net.Broadcast()
+        --net.Start("RoundState")
+        --net.WriteInt(R_STATE.HUNTING,4)
+        --net.Broadcast()
+        Killmode.roundState(nil, R_STATE.HUNTING, "true")
     else
         prepPrepTimer()
         timer.Start("Prepare")

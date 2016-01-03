@@ -18,7 +18,8 @@ rs_color[4] = Color(127,127,127,255)
 rs_color[5] = Color(127,127,127,255)
 
 IDENTITY_NAME = ""
-ROUND_STATE = 5
+ROUND_STATE = R_STATE.JOINED
+ROUND_STATES = {}
 VICTIM_NAME = ""
 
 local function getColor()
@@ -110,7 +111,15 @@ net.Receive("Identity", function()
 end)
 
 net.Receive("RoundState", function()
-    ROUND_STATE = net.ReadInt(4)
+    local isTable = net.ReadUInt(1)
+    if isTable == 1 then
+        ROUND_STATES = net.ReadTable()
+    end
+    if isTable == 0 then
+        local st_id = net.ReadString()
+        local state = net.ReadInt(4)
+        ROUND_STATES[st_id] = state
+    end
 end)
 
 net.Receive("Victim", function()
