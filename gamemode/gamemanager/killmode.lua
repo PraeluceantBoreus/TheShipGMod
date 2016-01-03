@@ -74,16 +74,20 @@ local function roundState(ply, state, all)
         for nr,val in pairs(player.GetAll()) do
             TS_Round_State[val:SteamID64()] = state
         end
+        net.Start("RoundState")
+        net.WriteUInt(1,1)
+        net.WriteTable(TS_Round_State)
+        net.Broadcast()
     else
         local st_id = ply:SteamID64()
         TS_Round_State[st_id] = state
+        net.Start("RoundState")
+        --is table?
+        net.WriteUInt(0,1)
+        net.WriteString(st_id)
+        net.WriteInt(state, 4)
+        net.Broadcast()
     end
-    net.Start("RoundState")
-    --is table?
-    net.WriteUInt(0,1)
-    net.WriteString(st_id)
-    net.WriteInt(state, 4)
-    net.Broadcast()
 end
 
 local function roundStates(ply)
@@ -118,6 +122,7 @@ end)
 Killmode.newVictims = newVictims
 Killmode.TS_Hunter_Victim = TS_Hunter_Victim
 Killmode.TS_Identities = TS_Identities
+Killmode.TS_Round_State = TS_Round_State
 Killmode.newIdentity = newIdentity
 Killmode.isHunter = isHunter
 Killmode.name = name

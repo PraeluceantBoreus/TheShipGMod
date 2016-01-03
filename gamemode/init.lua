@@ -31,6 +31,7 @@ include("gamemanager/msg_events.lua")
 
 
 function GM:PlayerInitialSpawn(ply)
+    
     Killmode.newIdentity(ply)
     local rstate = R_STATE.PREPARING
     local curr_time = timer.TimeLeft("Prepare")
@@ -49,12 +50,14 @@ function GM:PlayerInitialSpawn(ply)
     Killmode.identities(ply)
     Killmode.roundState(ply,rstate)
     Killmode.roundStates(ply)
+    
 end
 
 function GM:PlayerLoadout(ply)
     ply:Give("weapon_shotgun")
     ply:Give("weapon_ar2")
     ply:Give("weapon_physgun")
+    
 end
 
 util.AddNetworkString("Identity")

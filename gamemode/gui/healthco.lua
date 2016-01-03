@@ -22,6 +22,7 @@ IDENTITIES = {}
 ROUND_STATE = R_STATE.JOINED
 ROUND_STATES = {}
 VICTIM_NAME = ""
+INITED = false
 
 local function getColor()
     return rs_color[ROUND_STATE]
@@ -95,6 +96,16 @@ function drawCross()
 end
 
 function GM:HUDDrawTargetID()
+    local tr = util.GetPlayerTrace(client)
+    local trace = util.TraceLine(tr)
+    if(!trace.Hit) then return end
+    if(!trace.HitNonWorld) then return end
+    local ent = trace.Entity
+    if ent:IsPlayer() then
+        local st_id = ent:SteamID64()
+        print(st_id)
+        draw.SimpleText(IDENTITIES[st_id], "ProgBar", ScrW()/2,ScrH()/2,Color(255,255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+    end
 end
 
 local toHide = {
@@ -120,7 +131,9 @@ net.Receive("Identity", function()
         local name = net.ReadString()
         IDENTITIES[st_id] = name
     end
-    IDENTITY_NAME = IDENTITIES[client:SteamID64()]
+    if INITED then
+        IDENTITY_NAME = IDENTITIES[LocalPlayer():SteamID64()]
+    end
 end)
 
 net.Receive("RoundState", function()
@@ -133,7 +146,9 @@ net.Receive("RoundState", function()
         local state = net.ReadInt(4)
         ROUND_STATES[st_id] = state
     end
-    ROUND_STATE = ROUND_STATES[client:SteamID64()]
+    if INITED then
+        ROUND_STATE = ROUND_STATES[LocalPlayer():SteamID64()]
+    end
 end)
 
 net.Receive("Victim", function()
@@ -144,3 +159,8 @@ end)
 hook.Add("HUDPaint","Health", drawHealth)
 hook.Add("HUDPaint", "Cross", drawCross)
 hook.Add("HUDShouldDraw", "Hide Stuff", proofHide)
+hook.Add("InitPostEntity", "afterfirstspawn", function()
+    INITED = true
+    IDENTITY_NAME = IDENTITIES[LocalPlayer():SteamID64()]
+    ROUND_STATE = ROUND_STATES[LocalPlayer():SteamID64()]
+end)
