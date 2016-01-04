@@ -1,6 +1,6 @@
 function GM:PlayerDeath(ply, weapon, killer)
-    local st_v = ply:SteamID64()
-    local st_k = killer:SteamID64()
+    local st_v = ply:GetName()
+    local st_k = killer:GetName()
     local msg = "DEATH_UNFOUNDED"
     if st_k == nil then msg = "DEATH_SUICIDE" end
     --hunter success
