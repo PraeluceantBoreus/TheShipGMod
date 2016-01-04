@@ -119,7 +119,7 @@ hook.Add("PlayerDisconnected", "GiveBackName", function(ply)
     table.remove(TS_Identities, ply:SteamID64())
     for hunt,vic in pairs(TS_Hunter_Victim) do
         if vic == ply:SteamID64() then
-            newVictim(hunt,player.GetBySteamID64(TS_Identities[ply:SteamID64()]))
+            newVictim(hunt,byName(vic))
         end
     end
     table.remove(TS_Hunter_Victim, ply:SteamID64())
