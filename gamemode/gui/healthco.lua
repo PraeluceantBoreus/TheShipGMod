@@ -102,7 +102,7 @@ function GM:HUDDrawTargetID()
     if(!trace.HitNonWorld) then return end
     local ent = trace.Entity
     if ent:IsPlayer() then
-        local st_id = ent:SteamID64()
+        local st_id = ent:GetName()
         print(st_id)
         print(ent:GetName())
         draw.SimpleText(IDENTITIES[st_id], "ProgBar", ScrW()/2,ScrH()/2,Color(255,255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
@@ -133,7 +133,7 @@ net.Receive("Identity", function()
         IDENTITIES[st_id] = name
     end
     if INITED then
-        IDENTITY_NAME = IDENTITIES[LocalPlayer():SteamID64()]
+        IDENTITY_NAME = IDENTITIES[LocalPlayer():GetName()]
     end
 end)
 
@@ -148,7 +148,7 @@ net.Receive("RoundState", function()
         ROUND_STATES[st_id] = state
     end
     if INITED then
-        ROUND_STATE = ROUND_STATES[LocalPlayer():SteamID64()]
+        ROUND_STATE = ROUND_STATES[LocalPlayer():GetName()]
     end
 end)
 
@@ -162,6 +162,6 @@ hook.Add("HUDPaint", "Cross", drawCross)
 hook.Add("HUDShouldDraw", "Hide Stuff", proofHide)
 hook.Add("InitPostEntity", "afterfirstspawn", function()
     INITED = true
-    IDENTITY_NAME = IDENTITIES[LocalPlayer():SteamID64()]
-    ROUND_STATE = ROUND_STATES[LocalPlayer():SteamID64()]
+    IDENTITY_NAME = IDENTITIES[LocalPlayer():GetName()]
+    ROUND_STATE = ROUND_STATES[LocalPlayer():GetName()]
 end)
