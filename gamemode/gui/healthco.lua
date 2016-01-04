@@ -104,6 +104,7 @@ function GM:HUDDrawTargetID()
     if ent:IsPlayer() then
         local st_id = ent:SteamID64()
         print(st_id)
+        print(ent:GetName())
         draw.SimpleText(IDENTITIES[st_id], "ProgBar", ScrW()/2,ScrH()/2,Color(255,255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
     end
 end
