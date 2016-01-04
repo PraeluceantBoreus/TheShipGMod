@@ -4,6 +4,15 @@ local TS_Hunter_Victim = {}
 local TS_Identities = {}
 local TS_Round_State = {}
 
+local function byName(name)
+    for nr,ply in pairs(player.GetAll()) do
+        if ply:GetName() == name then
+            return ply
+        end
+    end
+    return nil
+end
+
 local function isHunter(st_h, st_v)
     return TS_Hunter_Victim[st_h] == st_v
 end
@@ -129,3 +138,4 @@ Killmode.name = name
 Killmode.roundState = roundState
 Killmode.roundStates = roundStates
 Killmode.identities = identities
+Killmode.byName = byName
