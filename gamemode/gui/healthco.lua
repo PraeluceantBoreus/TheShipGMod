@@ -11,21 +11,29 @@ local cross_width = 50
 local cross_strength = 1
 
 local rs_color = {}
-rs_color[1] = Color(0,0,127,255)
-rs_color[2] = Color(127,0,0,255)
-rs_color[3] = Color(0,127,0,255)
-rs_color[4] = Color(127,127,127,255)
-rs_color[5] = Color(127,127,127,255)
+rs_color[R_STATE.HUNTING] = Color(0,0,127,255)
+rs_color[R_STATE.KILLED] = Color(127,0,0,255)
+rs_color[R_STATE.FINISHED] = Color(0,127,0,255)
+rs_color[R_STATE.PREPARING] = Color(127,127,127,255)
+rs_color[R_STATE.JOINED] = Color(127,127,127,255)
 
-IDENTITY_NAME = ""
 IDENTITIES = {}
-ROUND_STATE = R_STATE.JOINED
 ROUND_STATES = {}
 VICTIM_NAME = ""
 INITED = false
 
+local function getRoundState()
+    local color = ROUND_STATES[LocalPlayer():GetName()]
+    if color == nil then color = rs_color[R_STATE.PREPARING]
+    return color
+end
+
+local function getName()
+    return IDENTITIES[LocalPlayer():GetName()]
+end
+
 local function getColor()
-    return rs_color[ROUND_STATE]
+    return rs_color[getRoundState()]
 end
 
 local function weapon()
@@ -53,7 +61,7 @@ function drawHealth()
     local margin = padding
     local width = width - 2 * padding
     
-    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,getColor(),IDENTITY_NAME)
+    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,getColor(),getName())
     
     margin = 2*padding
     padd_top = padd_top + padding + ProgBar.def_height
@@ -66,10 +74,10 @@ function drawHealth()
     
     padd_top = padd_top + ProgBar.def_height + padding
     local vname = LANG.ROUND_WAIT
-    if ROUND_STATE == R_STATE.HUNTING then vname = VICTIM_NAME end
-    if ROUND_STATE == R_STATE.KILLED then vname = LANG.ROUND_KILLED_FROM_HUNTER end
-    if ROUND_STATE == R_STATE.FINISHED then vname = LANG.ROUND_KILLED_VICTIM end
-    if ROUND_STATE == R_STATE.JOINED then vname = LANG.ROUND_JOINED end
+    if getRoundState() == R_STATE.HUNTING then vname = VICTIM_NAME end
+    if getRoundState() == R_STATE.KILLED then vname = LANG.ROUND_KILLED_FROM_HUNTER end
+    if getRoundState() == R_STATE.FINISHED then vname = LANG.ROUND_KILLED_VICTIM end
+    if getRoundState() == R_STATE.JOINED then vname = LANG.ROUND_JOINED end
     
     
     
@@ -78,7 +86,7 @@ function drawHealth()
     
     
     
-    if ROUND_STATE == R_STATE.PREPARING then
+    if getRoundState() == R_STATE.PREPARING then
         totalTime = CONF.PrepareTime
     end
     
@@ -103,8 +111,6 @@ function GM:HUDDrawTargetID()
     local ent = trace.Entity
     if ent:IsPlayer() then
         local st_id = ent:GetName()
-        print(st_id)
-        print(ent:GetName())
         draw.SimpleText(IDENTITIES[st_id], "ProgBar", ScrW()/2,ScrH()/2,Color(255,255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
     end
 end
@@ -132,9 +138,6 @@ net.Receive("Identity", function()
         local name = net.ReadString()
         IDENTITIES[st_id] = name
     end
-    if INITED then
-        IDENTITY_NAME = IDENTITIES[LocalPlayer():GetName()]
-    end
 end)
 
 net.Receive("RoundState", function()
@@ -147,9 +150,6 @@ net.Receive("RoundState", function()
         local state = net.ReadInt(4)
         ROUND_STATES[st_id] = state
     end
-    if INITED then
-        ROUND_STATE = ROUND_STATES[LocalPlayer():GetName()]
-    end
 end)
 
 net.Receive("Victim", function()
@@ -160,8 +160,3 @@ end)
 hook.Add("HUDPaint","Health", drawHealth)
 hook.Add("HUDPaint", "Cross", drawCross)
 hook.Add("HUDShouldDraw", "Hide Stuff", proofHide)
-hook.Add("InitPostEntity", "afterfirstspawn", function()
-    INITED = true
-    IDENTITY_NAME = IDENTITIES[LocalPlayer():GetName()]
-    ROUND_STATE = ROUND_STATES[LocalPlayer():GetName()]
-end)

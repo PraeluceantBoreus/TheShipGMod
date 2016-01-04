@@ -50,10 +50,10 @@ function GM:PlayerInitialSpawn(ply)
     Killmode.identities(ply)
     Killmode.roundState(ply,rstate)
     Killmode.roundStates(ply)
-    
 end
 
 function GM:PlayerLoadout(ply)
+    
     ply:Give("weapon_shotgun")
     ply:Give("weapon_ar2")
     ply:Give("weapon_physgun")
