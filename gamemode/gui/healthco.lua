@@ -77,9 +77,6 @@ function drawPlayerInfo(ply)
 	if state == R_STATE.PREPARING then state_text = LANG.STATE_PREPARING end
 	if state == R_STATE.JOINED then state_text = LANG.STATE_JOINED end
 	local state_color = rs_color[state]
-	print(name)
-	print(hp_text)
-	print(state_text)
 	Playerinfo.drawInfo(1,name,Color(255,255,255,255))
 	Playerinfo.drawInfo(2,hp_text, hp_color)
 	

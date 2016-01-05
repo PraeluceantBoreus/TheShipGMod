@@ -18,4 +18,10 @@ l.STATE_FINISHED = "Is fertig"
 l.STATE_PREPARING = "Is in da Vorberetung"
 l.STATE_JOINED = "Woart aufd nächste Rundn"
 
+l.HEALTH_FULL = "Kerngsund"
+l.HEALTH_HIT = "Hot an Krotzer"
+l.HEALTH_DAMAGED = "Hot si wehtaun"
+l.HEALTH_HURT = "Is ziehmloch beschädigt"
+l.HEALTH_CRITICAL = "Kurz vorm verrecken"
+
 LANGS["at"] = l
