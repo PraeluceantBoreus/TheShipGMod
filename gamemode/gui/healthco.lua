@@ -1,4 +1,5 @@
 include("cs_progressbar.lua")
+include("playerinfo.lua")
 --make message table
 
 local client = LocalPlayer()
@@ -52,6 +53,33 @@ local function maxClip()
     return weapon():GetMaxClip1()
 end
 
+function calcHealth(hp,fhp)
+	local ret = LANG.HEALTH_FULL
+	local color = Color(0,255,0,255)
+	local pro = hp / fhp
+	if pro < 1 then ret = LANG.HEALTH_HIT color = Color(63,195,0,255) end
+	if pro < 0.8 then ret = LANG.HEALTH_DAMAGED color = Color(127,127,0,255) end
+	if pro < 0.5 then ret = LANG.HEALTH_HURT color = Color(195,63,0,255) end
+	if pro < 0.25 then ret = LANG.HEALTH_CRITICAL color = Color(255,0,0,255) end
+end
+
+function drawPlayerInfo(ply)
+	local rname = ply:GetName()
+	local name = IDENTITIES[rname]
+	local hp_text, hp_color = calcHealth(ply:Health(),ply:GetMaxHealth())
+	local state = ROUND_STATES[rname]
+	local state_text = LANG.STATE_HUNTING
+	if state == R_STATE.KILLED then state_text = LANG.STATE_KILLED end
+	if state == R_STATE.FINISHED then state_text = LANG.STATE_FINISHED end
+	if state == R_STATE.PREPARING then state_text = LANG.STATE_PREPARING end
+	if state == R_STATE.JOINED then state_text = LANG.STATE_JOINED end
+	local state_color = rs_color[state]
+	
+	Playerinfo.draw(1,name,Color(255,255,255,255))
+	Playerinfo.draw(2,hp_text,hp_color)
+	Playerinfo.draw(3,state_text,state_color)
+end
+
 function drawHealth()
     
     client = LocalPlayer()
@@ -65,7 +93,7 @@ function drawHealth()
     
     margin = 2*padding
     padd_top = padd_top + padding + ProgBar.def_height
-    ProgBar.drawBar(100,client:Health(),margin,padd_top,width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
+    ProgBar.drawBar(client:GetMaxHealth(),client:Health(),margin,padd_top,width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
     
     padd_top = padd_top + ProgBar.def_height + padding
     if IsValid(weapon()) and maxClip() > 0 then

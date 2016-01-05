@@ -9,6 +9,7 @@ AddCSLuaFile("gui/gui.lua")
 AddCSLuaFile("gui/cs_progressbar.lua")
 AddCSLuaFile("gui/healthco.lua")
 AddCSLuaFile("gui/messages.lua")
+AddCSLuaFile("gui/playerinfo.lua")
 
 AddCSLuaFile("data/identities.lua")
 
