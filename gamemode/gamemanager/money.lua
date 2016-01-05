@@ -2,6 +2,7 @@ Money = {}
 
 local TS_CASH = {}
 local TS_BANK = {}
+local TS_WEAPONS = {}
 
 local function getCash(ply)
     return TS_CASH[ply:GetName()]
@@ -20,11 +21,11 @@ local function setBank(ply, amount)
 end
 
 local function addCash(ply, amount)
-    TS_CASH[ply:GetName()] = getCash(ply) + amount
+    setCash(ply, getCash(ply) + amount)
 end
 
 local function addBank(ply, amount)
-    TS_BANK[ply:GetName()] = getBank(ply) + amount
+    setBank(ply, getBank(ply) + amount)
 end
 
 local function transferBC(ply, amount)
@@ -35,8 +36,21 @@ local function transferBC(ply, amount)
     return true
 end
 
+local function getWeapon(wp)
+    return TS_WEAPONS[wp:GetName()]
+end
+
+local function setWeapon(wp, amount)
+    TS_WEAPONS[wp:GetName()] = amount
+end
+
+local function addWeapon(wp, amount)
+    setWeapon(wp, getWeapon() + amount)
+end
+
 Money.TS_CASH = TS_CASH
 Money.TS_BANK = TS_BANK
+Money.TS_WEAPONS = TS_WEAPONS
 Money.getCash = getCash
 Money.getBank = getBank
 Money.setCash = setCash
@@ -44,3 +58,6 @@ Money.setBank = setBank
 Money.addCash = addCash
 Money.addBank = addBank
 Money.transferBC = transferBC
+Money.getWeapon = getWeapon
+Money.setWeapon = setWeapon
+Money.addWeapon = addWeapon
