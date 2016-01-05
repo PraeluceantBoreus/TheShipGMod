@@ -24,7 +24,7 @@ INITED = false
 
 local function getRoundState()
     local color = ROUND_STATES[LocalPlayer():GetName()]
-    if color == nil then color = rs_color[R_STATE.PREPARING]
+    if color == nil then color = rs_color[R_STATE.PREPARING] end
     return color
 end
 
