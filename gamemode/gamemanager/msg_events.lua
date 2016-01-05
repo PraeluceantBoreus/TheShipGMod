@@ -2,8 +2,10 @@ function GM:PlayerDeath(ply, weapon, killer)
     local st_v = ply:GetName()
     local st_k = killer:GetName()
     local msg = "DEATH_UNFOUNDED"
-	local v_name = Killmode.name(ply)
-    local k_name = Killmode.name(killer)
+	--local v_name = Killmode.name(ply)
+    --local k_name = Killmode.name(killer)
+	local v_name = ply:GetName()
+	local k_name = killer:GetName()
     if st_k == nil or st_v == st_k then msg = "DEATH_SUICIDE" else
     --killed hunter
     if Killmode.isHunter(st_v, st_k) then 
