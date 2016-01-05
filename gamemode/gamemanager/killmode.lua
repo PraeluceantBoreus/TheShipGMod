@@ -116,14 +116,14 @@ end
 
 hook.Add("PlayerDisconnected", "GiveBackName", function(ply)
     giveBackName(ply)
-    table.remove(TS_Identities, ply:GetName())
+    TS_Identities[ply:GetName()] = nil
     for hunt,vic in pairs(TS_Hunter_Victim) do
         if vic == ply:GetName() then
             newVictim(hunt,byName(vic))
         end
     end
-    table.remove(TS_Hunter_Victim, ply:GetName())
-    table.remove(TS_Round_State, ply:GetName())
+    TS_Hunter_Victim[ply:GetName()] = nil
+    TS_Round_State[ply:GetName()] = nil
 end)
 
 

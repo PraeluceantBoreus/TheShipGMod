@@ -12,7 +12,7 @@ function GM:PlayerDeath(ply, weapon, killer)
         msg = "DEATH_VICTIM"
         Killmode.roundState(ply, R_STATE.KILLED)
         Killmode.roundState(killer, R_STATE.FINISHED)
-        table.remove(Killmode.TS_Hunter_Victim, st_k)
+        Killmode.TS_Hunter_Victim[st_k] = nil
     end
     end
     local v_name = Killmode.name(ply)
