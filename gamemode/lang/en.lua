@@ -18,4 +18,10 @@ l.STATE_FINISHED = "Is finished"
 l.STATE_PREPARING = "Is in preparingmode"
 l.STATE_JOINED = "Waits for the next round"
 
+l.HEALTH_FULL = "Healthy"
+l.HEALTH_HIT = "Hit"
+l.HEALTH_DAMAGED = "Damaged"
+l.HEALTH_HURT = "Hurt"
+l.HEALTH_CRITICAL = "Near death"
+
 LANGS["en"] = l

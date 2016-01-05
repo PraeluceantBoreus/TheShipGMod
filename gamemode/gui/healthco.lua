@@ -24,9 +24,9 @@ VICTIM_NAME = ""
 INITED = false
 
 local function getRoundState()
-    local color = ROUND_STATES[LocalPlayer():GetName()]
-    if color == nil then color = rs_color[R_STATE.PREPARING] end
-    return color
+    --local color = ROUND_STATES[LocalPlayer():GetName()]
+    --if color == nil then color = rs_color[R_STATE.PREPARING] end
+    return ROUND_STATES[LocalPlayer():GetName()]
 end
 
 local function getName()
@@ -34,7 +34,9 @@ local function getName()
 end
 
 local function getColor()
-    return rs_color[getRoundState()]
+    local ret = rs_color[getRoundState()]
+	if ret == nil then ret = rs_color[R_STATE.PREPARING] end
+	return ret
 end
 
 local function weapon()
@@ -61,6 +63,7 @@ function calcHealth(hp,fhp)
 	if pro < 0.8 then ret = LANG.HEALTH_DAMAGED color = Color(127,127,0,255) end
 	if pro < 0.5 then ret = LANG.HEALTH_HURT color = Color(195,63,0,255) end
 	if pro < 0.25 then ret = LANG.HEALTH_CRITICAL color = Color(255,0,0,255) end
+	return ret, color
 end
 
 function drawPlayerInfo(ply)
@@ -74,10 +77,13 @@ function drawPlayerInfo(ply)
 	if state == R_STATE.PREPARING then state_text = LANG.STATE_PREPARING end
 	if state == R_STATE.JOINED then state_text = LANG.STATE_JOINED end
 	local state_color = rs_color[state]
+	print(name)
+	print(hp_text)
+	print(state_text)
+	Playerinfo.drawInfo(1,name,Color(255,255,255,255))
+	Playerinfo.drawInfo(2,hp_text, hp_color)
 	
-	Playerinfo.draw(1,name,Color(255,255,255,255))
-	Playerinfo.draw(2,hp_text,hp_color)
-	Playerinfo.draw(3,state_text,state_color)
+	Playerinfo.drawInfo(3,state_text,state_color)
 end
 
 function drawHealth()
@@ -127,7 +133,7 @@ end
 function drawCross()
     
     draw.RoundedBox(0,ScrW()/2-cross_width/2,ScrH()/2-cross_strength/2,cross_width,cross_strength, getColor())
-    draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2-cross_width/2,cross_strength,cross_width, getColor())
+    --draw.RoundedBox(0,ScrW()/2-cross_width/2,cross_strength,cross_width, getColor())
     
 end
 
@@ -138,8 +144,7 @@ function GM:HUDDrawTargetID()
     if(!trace.HitNonWorld) then return end
     local ent = trace.Entity
     if ent:IsPlayer() then
-        local st_id = ent:GetName()
-        draw.SimpleText(IDENTITIES[st_id], "ProgBar", ScrW()/2,ScrH()/2,Color(255,255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+        drawPlayerInfo(ent)
     end
 end
 
