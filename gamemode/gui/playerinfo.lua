@@ -1,13 +1,13 @@
 Playerinfo = {}
 
 local function drawInfo(count, text, color)
-	local t_font = "Trebuchet18"
+	local t_font = "PlyInfo"
 	surface.SetFont(t_font)
 	local height = draw.GetFontHeight(t_font)
 	local init_margin = 20
 	
 	local t_x = ScrW()/2
-	local t_y = ScrH() / 2 + init_margin + (height*1.5)*(count-1)
+	local t_y = ScrH() / 2 + init_margin + (height*1.2)*(count-1)
 	
 	local text_table = {
 		text = text,
@@ -17,9 +17,8 @@ local function drawInfo(count, text, color)
 		yalign = TEXT_ALIGN_TOP,
 		color = color
 	}
-	PrintTable(text_table)
 	draw.Text(text_table)
-	draw.TextShadow(text_table, 2, 255)
+	draw.TextShadow(text_table, 1, 255)
 end
 
 Playerinfo.drawInfo = drawInfo

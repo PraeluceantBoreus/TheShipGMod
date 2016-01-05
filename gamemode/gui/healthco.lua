@@ -8,7 +8,7 @@ local width = 300
 local padding = 10
 local rounding = 15
 
-local cross_width = 50
+local cross_width = 25
 local cross_strength = 1
 
 local rs_color = {}
@@ -55,15 +55,22 @@ local function maxClip()
     return weapon():GetMaxClip1()
 end
 
+function blurColor(amount, parts)
+	local cmax = 170
+	local part = cmax / (parts-1)
+	local ret = Color(part*amount, cmax-part*amount,0,255)
+	return ret
+end
+
 function calcHealth(hp,fhp)
 	local ret = LANG.HEALTH_FULL
-	local color = Color(0,255,0,255)
 	local pro = hp / fhp
-	if pro < 1 then ret = LANG.HEALTH_HIT color = Color(63,195,0,255) end
-	if pro < 0.8 then ret = LANG.HEALTH_DAMAGED color = Color(127,127,0,255) end
-	if pro < 0.5 then ret = LANG.HEALTH_HURT color = Color(195,63,0,255) end
-	if pro < 0.25 then ret = LANG.HEALTH_CRITICAL color = Color(255,0,0,255) end
-	return ret, color
+	local amount = 0
+	if pro < 1 then ret = LANG.HEALTH_HIT amount = amount + 1 end
+	if pro < 0.8 then ret = LANG.HEALTH_DAMAGED amount = amount + 1 end
+	if pro < 0.5 then ret = LANG.HEALTH_HURT amount = amount + 1 end
+	if pro < 0.25 then ret = LANG.HEALTH_CRITICAL amount = amount + 1 end
+	return ret, blurColor(amount, 5)
 end
 
 function drawPlayerInfo(ply)
@@ -129,9 +136,11 @@ end
 
 function drawCross()
     
-    draw.RoundedBox(0,ScrW()/2-cross_width/2,ScrH()/2-cross_strength/2,cross_width,cross_strength, getColor())
-    --draw.RoundedBox(0,ScrW()/2-cross_width/2,cross_strength,cross_width, getColor())
+	draw.RoundedBox(0,ScrW()/2-cross_width*1.5,ScrH()/2-cross_strength/2,cross_width,cross_strength,getColor())
+	draw.RoundedBox(0,ScrW()/2+cross_width*0.5,ScrH()/2-cross_strength/2,cross_width,cross_strength,getColor())
     
+	draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2-cross_width*1.5,cross_strength,cross_width,getColor())
+	draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2+cross_width*0.5,cross_strength,cross_width,getColor())
 end
 
 function GM:HUDDrawTargetID()
