@@ -12,4 +12,16 @@ l.DEATH_SUICIDE = "{1} does not want to live any more"
 l.DEATH_VICTIM = "{1} was hunted and killed by {2}"
 l.DEATH_HUNTER = "{2} killed his hunter {1}"
 
+l.STATE_HUNTING = "Is hunting"
+l.STATE_KILLED = "Has been killed"
+l.STATE_FINISHED = "Is finished"
+l.STATE_PREPARING = "Is in preparingmode"
+l.STATE_JOINED = "Waits for the next round"
+
+l.HEALTH_FULL = "Healthy"
+l.HEALTH_HIT = "Hit"
+l.HEALTH_DAMAGED = "Damaged"
+l.HEALTH_HURT = "Hurt"
+l.HEALTH_CRITICAL = "Near death"
+
 LANGS["en"] = l

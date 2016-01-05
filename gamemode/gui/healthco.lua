@@ -1,4 +1,5 @@
 include("cs_progressbar.lua")
+include("playerinfo.lua")
 --make message table
 
 local client = LocalPlayer()
@@ -7,7 +8,7 @@ local width = 300
 local padding = 10
 local rounding = 15
 
-local cross_width = 50
+local cross_width = 25
 local cross_strength = 1
 
 local rs_color = {}
@@ -23,9 +24,9 @@ VICTIM_NAME = ""
 INITED = false
 
 local function getRoundState()
-    local color = ROUND_STATES[LocalPlayer():GetName()]
-    if color == nil then color = rs_color[R_STATE.PREPARING] end
-    return color
+    --local color = ROUND_STATES[LocalPlayer():GetName()]
+    --if color == nil then color = rs_color[R_STATE.PREPARING] end
+    return ROUND_STATES[LocalPlayer():GetName()]
 end
 
 local function getName()
@@ -33,7 +34,9 @@ local function getName()
 end
 
 local function getColor()
-    return rs_color[getRoundState()]
+    local ret = rs_color[getRoundState()]
+	if ret == nil then ret = rs_color[R_STATE.PREPARING] end
+	return ret
 end
 
 local function weapon()
@@ -52,6 +55,41 @@ local function maxClip()
     return weapon():GetMaxClip1()
 end
 
+function blurColor(amount, parts)
+	local cmax = 170
+	local part = cmax / (parts-1)
+	local ret = Color(part*amount, cmax-part*amount,0,255)
+	return ret
+end
+
+function calcHealth(hp,fhp)
+	local ret = LANG.HEALTH_FULL
+	local pro = hp / fhp
+	local amount = 0
+	if pro < 1 then ret = LANG.HEALTH_HIT amount = amount + 1 end
+	if pro < 0.8 then ret = LANG.HEALTH_DAMAGED amount = amount + 1 end
+	if pro < 0.5 then ret = LANG.HEALTH_HURT amount = amount + 1 end
+	if pro < 0.25 then ret = LANG.HEALTH_CRITICAL amount = amount + 1 end
+	return ret, blurColor(amount, 5)
+end
+
+function drawPlayerInfo(ply)
+	local rname = ply:GetName()
+	local name = IDENTITIES[rname]
+	local hp_text, hp_color = calcHealth(ply:Health(),ply:GetMaxHealth())
+	local state = ROUND_STATES[rname]
+	local state_text = LANG.STATE_HUNTING
+	if state == R_STATE.KILLED then state_text = LANG.STATE_KILLED end
+	if state == R_STATE.FINISHED then state_text = LANG.STATE_FINISHED end
+	if state == R_STATE.PREPARING then state_text = LANG.STATE_PREPARING end
+	if state == R_STATE.JOINED then state_text = LANG.STATE_JOINED end
+	local state_color = rs_color[state]
+	Playerinfo.drawInfo(1,name,Color(255,255,255,255))
+	Playerinfo.drawInfo(2,hp_text, hp_color)
+	
+	Playerinfo.drawInfo(3,state_text,state_color)
+end
+
 function drawHealth()
     
     client = LocalPlayer()
@@ -65,7 +103,7 @@ function drawHealth()
     
     margin = 2*padding
     padd_top = padd_top + padding + ProgBar.def_height
-    ProgBar.drawBar(100,client:Health(),margin,padd_top,width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
+    ProgBar.drawBar(client:GetMaxHealth(),client:Health(),margin,padd_top,width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
     
     padd_top = padd_top + ProgBar.def_height + padding
     if IsValid(weapon()) and maxClip() > 0 then
@@ -98,9 +136,11 @@ end
 
 function drawCross()
     
-    draw.RoundedBox(0,ScrW()/2-cross_width/2,ScrH()/2-cross_strength/2,cross_width,cross_strength, getColor())
-    draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2-cross_width/2,cross_strength,cross_width, getColor())
+	draw.RoundedBox(0,ScrW()/2-cross_width*1.5,ScrH()/2-cross_strength/2,cross_width,cross_strength,getColor())
+	draw.RoundedBox(0,ScrW()/2+cross_width*0.5,ScrH()/2-cross_strength/2,cross_width,cross_strength,getColor())
     
+	draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2-cross_width*1.5,cross_strength,cross_width,getColor())
+	draw.RoundedBox(0,ScrW()/2-cross_strength/2,ScrH()/2+cross_width*0.5,cross_strength,cross_width,getColor())
 end
 
 function GM:HUDDrawTargetID()
@@ -110,8 +150,7 @@ function GM:HUDDrawTargetID()
     if(!trace.HitNonWorld) then return end
     local ent = trace.Entity
     if ent:IsPlayer() then
-        local st_id = ent:GetName()
-        draw.SimpleText(IDENTITIES[st_id], "ProgBar", ScrW()/2,ScrH()/2,Color(255,255,255,255),TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
+        drawPlayerInfo(ent)
     end
 end
 
