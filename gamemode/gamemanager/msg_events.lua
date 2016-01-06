@@ -1,7 +1,11 @@
 function GM:PlayerDeath(ply, weapon, killer)
-    local weapon = killer:GetActiveWeapon()
+    local weapon = "UNKNOWN_WEAPON"
     local st_v = ply:GetName()
-    local st_k = killer:GetName()
+    local st_k = "UNKNOWN_NAME"
+    if killer ~+ nil then
+        weapon = killer:GetActiveWeapon()
+        st_k = killer:GetName()
+    end
     local msg = "DEATH_UNFOUNDED"
 	--local v_name = Killmode.name(ply)
     --local k_name = Killmode.name(killer)
