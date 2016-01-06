@@ -79,7 +79,7 @@ end
 local function playerInit(ply)
     setCash(ply, CONF.StartCash)
     setBank(ply, CONF.StartBank)
-    net.start("money_init")
+    net.Start("money_init")
     net.WriteTable(TS_BANK)
     net.WriteTable(TS_WEAPONS)
     net.Send(ply)
