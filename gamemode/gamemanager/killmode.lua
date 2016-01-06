@@ -81,7 +81,7 @@ end
 local function roundState(ply, state, all)
     if all ~= nil then
         for nr,val in pairs(player.GetAll()) do
-            TS_Round_State[val:GetName()] = state
+            roundState(val, state)
         end
         net.Start("RoundState")
         net.WriteUInt(1,1)
@@ -90,6 +90,7 @@ local function roundState(ply, state, all)
     else
         local st_id = ply:GetName()
         TS_Round_State[st_id] = state
+        if state ~= R_STATE.HUNTING then TS_Hunter_Victim[st_id] = nil end
         net.Start("RoundState")
         --is table?
         net.WriteUInt(0,1)
