@@ -4,20 +4,25 @@ local TS_CASH = {}
 local TS_BANK = {}
 local TS_WEAPONS = {}
 
+local function correct(ent)
+    if ent.GetName == nil then return ent end
+    return ent:GetName()
+end
+
 local function getCash(ply)
-    return TS_CASH[ply:GetName()]
+    return TS_CASH[correct(ply)]
 end
 
 local function getBank(ply)
-    return TS_BANK[ply:GetName()]
+    return TS_BANK[correct(ply)]
 end
 
 local function setCash(ply, amount)
-    TS_CASH[ply:GetName()] = amount
+    TS_CASH[correct(ply)] = amount
 end
 
 local function setBank(ply, amount)
-    TS_BANK[ply:GetName()] = amount
+    TS_BANK[correct(ply)] = amount
 end
 
 local function addCash(ply, amount)
@@ -37,11 +42,11 @@ local function transferBC(ply, amount)
 end
 
 local function getWeapon(wp)
-    return TS_WEAPONS[wp:GetName()]
+    return TS_WEAPONS[correct(wp)]
 end
 
 local function setWeapon(wp, amount)
-    TS_WEAPONS[wp:GetName()] = amount
+    TS_WEAPONS[correct(wp)] = amount
 end
 
 local function addWeapon(wp, amount)
