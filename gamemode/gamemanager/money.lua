@@ -31,7 +31,7 @@ local function broadcast(ply, amount, etype)
     net.Start("money_"..etype)
     net.WriteString(ply)
     net.WriteInt(amount, 32)
-    net.BroadCast()
+    net.Broadcast()
 end
 
 local function setCash(ply, amount)
