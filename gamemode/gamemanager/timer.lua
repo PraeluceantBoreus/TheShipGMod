@@ -28,6 +28,7 @@ local function roundFinish()
     --net.WriteInt(R_STATE.PREPARING,4)
     --net.Broadcast()
     Killmode.roundState(nil, R_STATE.PREPARING, "true")
+    Money.roundFinish()
 end
 
 local function prepareFinish()

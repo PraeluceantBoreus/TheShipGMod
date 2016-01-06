@@ -53,6 +53,13 @@ local function addWeapon(wp, amount)
     setWeapon(wp, getWeapon() + amount)
 end
 
+local function roundFinish()
+    for wp, amount in pairs(TS_WEAPONS) do
+        local adding = math.random(CONF.MinWeapon,CONF.MaxWeapon)
+        addWeapon(wp, adding)
+    end
+end
+
 Money.TS_CASH = TS_CASH
 Money.TS_BANK = TS_BANK
 Money.TS_WEAPONS = TS_WEAPONS
@@ -66,3 +73,4 @@ Money.transferBC = transferBC
 Money.getWeapon = getWeapon
 Money.setWeapon = setWeapon
 Money.addWeapon = addWeapon
+Money.roundFinish = roundFinish
