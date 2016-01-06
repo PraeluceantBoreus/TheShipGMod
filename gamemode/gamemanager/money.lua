@@ -6,7 +6,9 @@ local TS_BANK = {}
 local TS_WEAPONS = {}
 
 local function correct(ent)
-    if type(ent) == "string" then return ent end
+    local etype = type(ent)
+    if etype == "string" then return ent end
+    if etype == "Weapon" then return ent:GetClass() end
     return ent:GetName()
 end
 

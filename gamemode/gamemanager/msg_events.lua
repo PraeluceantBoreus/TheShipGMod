@@ -1,4 +1,5 @@
 function GM:PlayerDeath(ply, weapon, killer)
+    local weapon = killer:GetActiveWeapon()
     local st_v = ply:GetName()
     local st_k = killer:GetName()
     local msg = "DEATH_UNFOUNDED"
@@ -17,13 +18,11 @@ function GM:PlayerDeath(ply, weapon, killer)
         Killmode.roundState(ply, R_STATE.KILLED)
         Killmode.roundState(killer, R_STATE.FINISHED)
         Killmode.TS_Hunter_Victim[st_k] = nil
-		Killmode.TS_Hunter_Victim[st_v] = nil
-		Killmode.newIdentity(ply)
+        Killmode.TS_Hunter_Victim[st_v] = nil
+        Killmode.newIdentity(ply)
                 
-        if weapon ~= nil and weapon:IsWeapon() and not wepaon:IsPlayer() then
-            Money.addBank(killer, Money.getWeapon(weapon))
-            Money.setWeapon(CONF.MinWeapon)
-        end
+        Money.addBank(killer, Money.getWeapon(weapon))
+        Money.setWeapon(weapon, CONF.MinWeapon)
     end
     end
     Money.setCash(ply, 0)
