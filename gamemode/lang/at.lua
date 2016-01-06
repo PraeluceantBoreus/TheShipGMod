@@ -24,4 +24,8 @@ l.HEALTH_DAMAGED = "Hot si wehtaun"
 l.HEALTH_HURT = "Is ziehmloch beschädigt"
 l.HEALTH_CRITICAL = "Kurz vorm verrecken"
 
+l.MONEY_BANK = "Bank"
+l.MONEY_CASH = "Bargeld"
+l.MONEY_ECONOMY = "S"
+
 LANGS["at"] = l

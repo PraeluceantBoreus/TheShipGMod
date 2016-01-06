@@ -24,4 +24,8 @@ l.HEALTH_DAMAGED = "Verletzt"
 l.HEALTH_HURT = "Stark verletzt"
 l.HEALTH_CRITICAL = "Fast tot"
 
+l.MONEY_BANK = "Bank"
+l.MONEY_CASH = "Bargeld"
+l.MONEY_ECONOMY = "€"
+
 LANGS["de"] = l
