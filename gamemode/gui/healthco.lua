@@ -18,6 +18,9 @@ rs_color[R_STATE.FINISHED] = Color(0,127,0,255)
 rs_color[R_STATE.PREPARING] = Color(127,127,127,255)
 rs_color[R_STATE.JOINED] = Color(127,127,127,255)
 
+CASH = CONF.StartCash
+BANK = {}
+WEAPONS = {}
 IDENTITIES = {}
 ROUND_STATES = {}
 VICTIM_NAME = ""
@@ -194,6 +197,24 @@ end)
 net.Receive("Victim", function()
     VICTIM_NAME = net.ReadString()
 end)
+
+net.Receive("money_init", function()
+    BANK = net.ReadTable()
+    WEAPONS = net.ReadTable()
+end)
+
+net.Receive("money_cash", function()
+    CASH = net.ReadInt(32)
+end)
+
+net.Receive("money_bank", function()
+    BANK[net.ReadString()] = net.ReadInt(32)
+end)
+
+net.Receive("money_weapon", function()
+    WEAPONS[net.ReadString()] = net.ReadInt(32)
+end)
+
 
 
 hook.Add("HUDPaint","Health", drawHealth)
