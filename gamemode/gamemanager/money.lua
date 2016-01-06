@@ -60,6 +60,19 @@ local function roundFinish()
     end
 end
 
+local function sendCash(ply)
+    net.Start("money_cash")
+    net.WriteInt(getCash(ply), 16)
+    net.Send(ply)
+end
+
+local function broadcast(ply, amount, etype)
+    net.Start("money_"..etype)
+    net.WriteString(ply)
+    net.WriteInt(amount, 32)
+    net.BroadCast()
+end
+
 Money.TS_CASH = TS_CASH
 Money.TS_BANK = TS_BANK
 Money.TS_WEAPONS = TS_WEAPONS
