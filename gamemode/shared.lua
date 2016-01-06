@@ -10,6 +10,12 @@ CONF.PrepareTime = 10
 
 CONF.MinPlayers = 2
 
+CONF.MinWeapon = 100
+CONF.MaxWeapon = 5000
+
+CONF.StartBank = 2500
+CONF.StartCash = 250
+
 R_STATE = {}
 
 R_STATE.PREPARING = 0

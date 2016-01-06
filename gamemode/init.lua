@@ -21,6 +21,7 @@ include("data/identities.lua")
 include("gamemanager/killmode.lua")
 include("gamemanager/timer.lua")
 include("gamemanager/msg_events.lua")
+include("gamemanager/money.lua")
 
 --RoundStates:
 --1 Hunting

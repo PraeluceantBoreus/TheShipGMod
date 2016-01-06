@@ -19,8 +19,14 @@ function GM:PlayerDeath(ply, weapon, killer)
         Killmode.TS_Hunter_Victim[st_k] = nil
 		Killmode.TS_Hunter_Victim[st_v] = nil
 		Killmode.newIdentity(ply)
+                
+        if weapon ~= nil and weapon:IsWeapon() and not wepaon:IsPlayer() then
+            Money.addBank(killer, Money.getWeapon(weapon))
+            Money.setWeapon(CONF.MinWeapon)
+        end
     end
     end
+    Money.setCash(ply, 0)
     
     local data = {}
     data["1"] = v_name
