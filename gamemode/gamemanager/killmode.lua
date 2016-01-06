@@ -14,18 +14,18 @@ local function byName(name)
 end
 
 local function isHunter(st_h, st_v)
-    return TS_Hunter_Victim[st_h] == st_v
+    return TS_Hunter_Victim[Money.correct(st_h)] == Money.correct(st_v)
 end
 
 local function name(ply)
-    return TS_Identities[ply:GetName()]
+    return TS_Identities[Money.correct(ply)]
 end
 
 local function newVictim(hunter, victim)
-    TS_Hunter_Victim[hunter:GetName()] = victim:GetName()
+    TS_Hunter_Victim[Money.correct(hunter)] = Money.correct(victim)
     Killmode.roundState(hunter, R_STATE.HUNTING)
     net.Start("Victim")
-        net.WriteString(TS_Identities[victim:GetName()])
+        net.WriteString(TS_Identities[Money.correct(victim)])
     net.Send(hunter)
 end
 
@@ -46,7 +46,7 @@ end
 
 
 local function giveBackName(ply)
-    local oldname = TS_Identities[ply:GetName()]
+    local oldname = TS_Identities[Money.correct(ply)]
     if oldname ~= nil then
         table.insert(TEMP_NAMES, oldname)
         TEMP_NAMES = Arrays.shuffle(TEMP_NAMES)
@@ -63,12 +63,13 @@ end
 local function newIdentity(ply)
 --     create second table for names, remove name, when in use, add name, when nobody has it, shuffle names
     giveBackName(ply)
-    TS_Identities[ply:GetName()] = table.remove(TEMP_NAMES, 1)
+    local name = Money.correct(ply)
+    TS_Identities[name] = table.remove(TEMP_NAMES, 1)
     
     net.Start("Identity")
         net.WriteUInt(0,1)
-        net.WriteString(ply:GetName())
-        net.WriteString(TS_Identities[ply:GetName()])
+        net.WriteString(name)
+        net.WriteString(TS_Identities[name])
     net.Broadcast()
 end
 

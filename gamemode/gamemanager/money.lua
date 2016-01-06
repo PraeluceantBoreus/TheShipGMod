@@ -110,3 +110,4 @@ Money.addWeapon = addWeapon
 Money.roundFinish = roundFinish
 Money.playerInit = playerInit
 Money.weaponInit = weaponInit
+Money.correct = correct

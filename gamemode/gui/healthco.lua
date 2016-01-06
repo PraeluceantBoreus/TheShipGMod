@@ -3,7 +3,7 @@ include("playerinfo.lua")
 --make message table
 
 local client = LocalPlayer()
-local height = 200
+local height = 250
 local width = 300
 local padding = 10
 local rounding = 15
@@ -135,6 +135,10 @@ function drawHealth()
     if timeLeft == nil then timeLeft = totalTime end
     
     ProgBar.drawBar(totalTime,timeLeft,margin,padd_top,width,-1,-1,getColor(),vname)
+    
+    padd_top = padd_top + ProgBar.def_height + padding
+    
+    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,getColor(),LANG.MONEY_BANK..": "..BANK[LocalPlayer():GetName()].." "..LANG.MONEY_ECONOMY)
 end
 
 function drawCross()
