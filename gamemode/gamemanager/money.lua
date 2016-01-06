@@ -17,12 +17,31 @@ local function getBank(ply)
     return TS_BANK[correct(ply)]
 end
 
+local function getWeapon(wp)
+    return TS_WEAPONS[correct(wp)]
+end
+
+local function sendCash(ply)
+    net.Start("money_cash")
+    net.WriteInt(getCash(ply), 16)
+    net.Send(ply)
+end
+
+local function broadcast(ply, amount, etype)
+    net.Start("money_"..etype)
+    net.WriteString(ply)
+    net.WriteInt(amount, 32)
+    net.BroadCast()
+end
+
 local function setCash(ply, amount)
     TS_CASH[correct(ply)] = amount
+    sendCash(ply)
 end
 
 local function setBank(ply, amount)
     TS_BANK[correct(ply)] = amount
+    broadcast(correct(ply), amount, "bank")
 end
 
 local function addCash(ply, amount)
@@ -41,12 +60,9 @@ local function transferBC(ply, amount)
     return true
 end
 
-local function getWeapon(wp)
-    return TS_WEAPONS[correct(wp)]
-end
-
 local function setWeapon(wp, amount)
     TS_WEAPONS[correct(wp)] = amount
+    broadcast(correct(wp), amount, "weapon")
 end
 
 local function addWeapon(wp, amount)
@@ -60,17 +76,13 @@ local function roundFinish()
     end
 end
 
-local function sendCash(ply)
-    net.Start("money_cash")
-    net.WriteInt(getCash(ply), 16)
+local function playerInit(ply)
+    setCash(ply, CONF.StartCash)
+    setBank(ply, CONF.StartBank)
+    net.start("money_init")
+    net.WriteTable(TS_BANK)
+    net.WriteTable(TS_WEAPONS)
     net.Send(ply)
-end
-
-local function broadcast(ply, amount, etype)
-    net.Start("money_"..etype)
-    net.WriteString(ply)
-    net.WriteInt(amount, 32)
-    net.BroadCast()
 end
 
 Money.TS_CASH = TS_CASH
@@ -87,3 +99,4 @@ Money.getWeapon = getWeapon
 Money.setWeapon = setWeapon
 Money.addWeapon = addWeapon
 Money.roundFinish = roundFinish
+Money.playerInit = playerInit

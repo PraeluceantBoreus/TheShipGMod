@@ -52,6 +52,7 @@ function GM:PlayerInitialSpawn(ply)
     Killmode.identities(ply)
     Killmode.roundState(ply,rstate)
     Killmode.roundStates(ply)
+    Money.playerInit(ply)
 end
 
 function GM:PlayerLoadout(ply)
@@ -70,6 +71,5 @@ util.AddNetworkString("Message")
 
 util.AddNetworkString("money_cash")
 util.AddNetworkString("money_bank")
-util.AddNetworkString("money_bank_table")
+util.AddNetworkString("money_init")
 util.AddNetworkString("money_weapon")
-util.AddNetworkString("money_weapon_table")
