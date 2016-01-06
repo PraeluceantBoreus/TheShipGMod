@@ -1,11 +1,12 @@
-Money = {} 
+Money = {}
+string.GetName = nil
 
 local TS_CASH = {}
 local TS_BANK = {}
 local TS_WEAPONS = {}
 
 local function correct(ent)
-    if ent.GetName == nil then return ent end
+    if type(ent) == "string" then return ent end
     return ent:GetName()
 end
 
@@ -66,7 +67,7 @@ local function setWeapon(wp, amount)
 end
 
 local function addWeapon(wp, amount)
-    setWeapon(wp, getWeapon() + amount)
+    setWeapon(wp, getWeapon(wp) + amount)
 end
 
 local function roundFinish()
@@ -85,6 +86,12 @@ local function playerInit(ply)
     net.Send(ply)
 end
 
+local function weaponInit()
+    for nr, weapon in pairs(WEAPONS) do
+        setWeapon(weapon, math.random(CONF.MinWeapon, CONF.MaxWeapon))
+    end
+end
+
 Money.TS_CASH = TS_CASH
 Money.TS_BANK = TS_BANK
 Money.TS_WEAPONS = TS_WEAPONS
@@ -100,3 +107,4 @@ Money.setWeapon = setWeapon
 Money.addWeapon = addWeapon
 Money.roundFinish = roundFinish
 Money.playerInit = playerInit
+Money.weaponInit = weaponInit

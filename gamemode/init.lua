@@ -18,6 +18,7 @@ include("shared.lua")
 include("utils/arrays.lua")
 
 include("data/identities.lua")
+include("data/weapons.lua")
 include("gamemanager/killmode.lua")
 include("gamemanager/timer.lua")
 include("gamemanager/msg_events.lua")
@@ -31,6 +32,9 @@ include("gamemanager/money.lua")
 --5 Join Round
 
 
+function GM:Initialize()
+    Money.weaponInit()
+end
 
 function GM:PlayerInitialSpawn(ply)
     

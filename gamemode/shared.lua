@@ -24,6 +24,3 @@ R_STATE.KILLED = 2
 R_STATE.FINISHED = 3
 R_STATE.PREPARING = 4
 R_STATE.JOINED = 5
-
-function GM:Initialize()
-end
