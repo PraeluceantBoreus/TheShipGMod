@@ -2,7 +2,7 @@ function GM:PlayerDeath(ply, weapon, killer)
     local weapon = "UNKNOWN_WEAPON"
     local st_v = ply:GetName()
     local st_k = "UNKNOWN_NAME"
-    if killer ~+ nil then
+    if killer =+ nil then
         weapon = killer:GetActiveWeapon()
         st_k = killer:GetName()
     end
