@@ -3,11 +3,11 @@ include("playerinfo.lua")
 --make message table
 
 local client = LocalPlayer()
-local bar_height = 30
-local bar_width = 200
+local bar_height = ProgBar.def_height
+local bar_width = ProgBar.def_width
 local left_bars = 5
 local padding = 10
-local rounding = 15
+local rounding = ProgBar.def_round
 
 local cross_width = 25
 local cross_strength = 1
