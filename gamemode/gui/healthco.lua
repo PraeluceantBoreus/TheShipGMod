@@ -109,10 +109,10 @@ function drawHealth()
     ProgBar.drawBar(client:GetMaxHealth(),client:Health(),bar_padd,act_padd,bar_width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
     
     act_padd = act_padd + bar_height + padding
-    if IsValid(weapon()) and maxClip() > 0 then
-    ProgBar.drawBar(maxClip(),clipAmmo(),bar_padd,act_padd,bar_width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
-    end
     
+    local money = BANK[LocalPlayer():GetName()]
+    if money == nil then money = CONF.StartBank end
+    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_BANK..": "..money.." "..LANG.MONEY_ECONOMY)
     act_padd = act_padd + bar_height + padding
     local vname = LANG.ROUND_WAIT
     if getRoundState() == R_STATE.HUNTING then vname = VICTIM_NAME end
@@ -138,7 +138,11 @@ function drawHealth()
     
     act_padd = act_padd + bar_height + padding
     
-    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_BANK..": "..BANK[LocalPlayer():GetName()].." "..LANG.MONEY_ECONOMY)
+    if IsValid(weapon()) and maxClip() > 0 then
+    ProgBar.drawBar(maxClip(),clipAmmo(),bar_padd,act_padd,bar_width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
+    end
+    
+    
 end
 
 function drawCross()
