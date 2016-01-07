@@ -98,10 +98,10 @@ function drawHealth()
     
     client = LocalPlayer()
     local box_height = left_bars * (bar_height + padding)
-    
-    draw.RoundedBox(rounding,padding,box_height+padding,bar_width + 2 * bar_width,box_height, Color(0,0,0,196))
+    local act_padd = ScrH() - (box_height + padding)
+    draw.RoundedBox(rounding,padding,act_padd,bar_width + 2 * padding,box_height, Color(0,0,0,196))
 
-    local act_padd = box_height + padding
+    --act_padd = act_padd + bar_height + padding
     ProgBar.drawBar(1,1,padding,act_padd,bar_width,-1,-1,getColor(),getName())
     
     local bar_padd = 2 * padding

@@ -1,7 +1,7 @@
 ProgBar = {}
 
 local def_width = 300
-local def_height = 40
+local def_height = 30
 local def_round = 15
 local def_color = Color(127,127,127,255)
 
