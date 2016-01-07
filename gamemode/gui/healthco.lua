@@ -3,8 +3,9 @@ include("playerinfo.lua")
 --make message table
 
 local client = LocalPlayer()
-local height = 250
-local width = 300
+local bar_height = 30
+local bar_width = 200
+local left_bars = 5
 local padding = 10
 local rounding = 15
 
@@ -96,24 +97,23 @@ end
 function drawHealth()
     
     client = LocalPlayer()
-    local padd_top = ScrH()-(height+padding)
-    draw.RoundedBox(rounding,padding,padd_top,width,height, Color(0,0,0,128))
+    local box_height = left_bars * (bar_height + padding)
     
-    local margin = padding
-    local width = width - 2 * padding
+    draw.RoundedBox(rounding,padding,box_height+padding,bar_width + 2 * bar_width,box_height, Color(0,0,0,196))
+
+    local act_padd = box_height + padding
+    ProgBar.drawBar(1,1,padding,act_padd,bar_width,-1,-1,getColor(),getName())
     
-    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,getColor(),getName())
+    local bar_padd = 2 * padding
+    act_padd = act_padd + bar_height + padding
+    ProgBar.drawBar(client:GetMaxHealth(),client:Health(),bar_padd,act_padd,bar_width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
     
-    margin = 2*padding
-    padd_top = padd_top + padding + ProgBar.def_height
-    ProgBar.drawBar(client:GetMaxHealth(),client:Health(),margin,padd_top,width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
-    
-    padd_top = padd_top + ProgBar.def_height + padding
+    act_padd = act_padd + bar_height + padding
     if IsValid(weapon()) and maxClip() > 0 then
-    ProgBar.drawBar(maxClip(),clipAmmo(),margin,padd_top,width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
+    ProgBar.drawBar(maxClip(),clipAmmo(),bar_padd,act_padd,bar_width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
     end
     
-    padd_top = padd_top + ProgBar.def_height + padding
+    act_padd = act_padd + bar_height + padding
     local vname = LANG.ROUND_WAIT
     if getRoundState() == R_STATE.HUNTING then vname = VICTIM_NAME end
     if getRoundState() == R_STATE.KILLED then vname = LANG.ROUND_KILLED_FROM_HUNTER end
@@ -134,11 +134,11 @@ function drawHealth()
     
     if timeLeft == nil then timeLeft = totalTime end
     
-    ProgBar.drawBar(totalTime,timeLeft,margin,padd_top,width,-1,-1,getColor(),vname)
+    ProgBar.drawBar(totalTime,timeLeft,bar_padd,act_padd,bar_width,-1,-1,getColor(),vname)
     
-    padd_top = padd_top + ProgBar.def_height + padding
+    act_padd = act_padd + bar_height + padding
     
-    ProgBar.drawBar(1,1,margin,padd_top,width,-1,-1,getColor(),LANG.MONEY_BANK..": "..BANK[LocalPlayer():GetName()].." "..LANG.MONEY_ECONOMY)
+    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_BANK..": "..BANK[LocalPlayer():GetName()].." "..LANG.MONEY_ECONOMY)
 end
 
 function drawCross()
