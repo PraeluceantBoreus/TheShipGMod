@@ -6,6 +6,7 @@ local client = LocalPlayer()
 local bar_height = ProgBar.def_height
 local bar_width = ProgBar.def_width
 local left_bars = 5
+local right_bars = 2
 local padding = 10
 local rounding = ProgBar.def_round
 
@@ -112,15 +113,34 @@ function drawHealth()
     
     local money = BANK[LocalPlayer():GetName()]
     if money == nil then money = CONF.StartBank end
+    
+    
+    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1-1,getColor(),LANG.MONEY_CASH..": "..CASH.." "..LANG.MONEY_ECONOMY)
+    
+    act_padd = act_padd + bar_height + padding
+    
     ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_BANK..": "..money.." "..LANG.MONEY_ECONOMY)
     act_padd = act_padd + bar_height + padding
+    
+    if IsValid(weapon()) and maxClip() > 0 then
+    ProgBar.drawBar(maxClip(),clipAmmo(),bar_padd,act_padd,bar_width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
+    end
+    
+    
+end
+
+local function draw vicInfo()
+    local height = right_bars * (bar_height + padding)
+    local act_padd = padding
+    
+    local bar_padd = ScrW() - (bar_width + padding)
+    draw.RoundedBox(rounding, bar_padd - padding, act_padd, bar_width + 2 * padding, height, Color(0,0,0,196))
+    
     local vname = LANG.ROUND_WAIT
     if getRoundState() == R_STATE.HUNTING then vname = VICTIM_NAME end
     if getRoundState() == R_STATE.KILLED then vname = LANG.ROUND_KILLED_FROM_HUNTER end
     if getRoundState() == R_STATE.FINISHED then vname = LANG.ROUND_KILLED_VICTIM end
     if getRoundState() == R_STATE.JOINED then vname = LANG.ROUND_JOINED end
-    
-    
     
     local totalTime = CONF.RoundTime
     local timeLeft = timer.TimeLeft("RoundTimer")
@@ -134,15 +154,9 @@ function drawHealth()
     
     if timeLeft == nil then timeLeft = totalTime end
     
-    ProgBar.drawBar(totalTime,timeLeft,bar_padd,act_padd,bar_width,-1,-1,getColor(),vname)
-    
+    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),vname)
     act_padd = act_padd + bar_height + padding
-    
-    if IsValid(weapon()) and maxClip() > 0 then
-    ProgBar.drawBar(maxClip(),clipAmmo(),bar_padd,act_padd,bar_width,-1,-1,Color(196,127,0,255),LANG.AMMO.." "..clipAmmo().." + "..currAmmo())
-    end
-    
-    
+    ProgBar.draw(timeLeft, totalTime, act_padd, bar_width,-1,-1,getColor(), LANG.TIME.." "..math.floor(timeLeft/60)":"timeLeft%60)
 end
 
 function drawCross()
