@@ -16,6 +16,8 @@ CONF.MaxWeapon = 5000
 CONF.StartBank = 2500
 CONF.StartCash = 250
 
+CONF.BankWin = 25000
+
 R_STATE = {}
 
 R_STATE.PREPARING = 0

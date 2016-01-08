@@ -119,7 +119,7 @@ function drawHealth()
     
     act_padd = act_padd + bar_height + padding
     
-    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_BANK..": "..money.." "..LANG.MONEY_ECONOMY)
+    ProgBar.drawBar(CONF.BankWin,money,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_BANK..": "..money.." "..LANG.MONEY_ECONOMY)
     act_padd = act_padd + bar_height + padding
     
     if IsValid(weapon()) and maxClip() > 0 then
