@@ -28,4 +28,6 @@ l.MONEY_BANK = "Bank"
 l.MONEY_CASH = "Bargeld"
 l.MONEY_ECONOMY = "S"
 
+l.TIME = "Zeit"
+
 LANGS["at"] = l

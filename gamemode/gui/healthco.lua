@@ -129,7 +129,7 @@ function drawHealth()
     
 end
 
-local function draw vicInfo()
+local function drawVicInfo()
     local height = right_bars * (bar_height + padding)
     local act_padd = padding
     
@@ -156,7 +156,7 @@ local function draw vicInfo()
     
     ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),vname)
     act_padd = act_padd + bar_height + padding
-    ProgBar.draw(timeLeft, totalTime, act_padd, bar_width,-1,-1,getColor(), LANG.TIME.." "..math.floor(timeLeft/60)":"timeLeft%60)
+    ProgBar.draw(timeLeft, totalTime, act_padd, bar_width,-1,-1,getColor(), LANG.TIME..": "..math.floor(timeLeft/60)":"timeLeft%60)
 end
 
 function drawCross()
@@ -240,5 +240,6 @@ end)
 
 
 hook.Add("HUDPaint","Health", drawHealth)
+hook.Add("HUDPaint", "VicInfo", drawVicInfo)
 hook.Add("HUDPaint", "Cross", drawCross)
 hook.Add("HUDShouldDraw", "Hide Stuff", proofHide)

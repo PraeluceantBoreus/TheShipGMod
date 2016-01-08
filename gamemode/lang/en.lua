@@ -28,4 +28,6 @@ l.MONEY_BANK = "Bank"
 l.MONEY_CASH = "Cash"
 l.MONEY_ECONOMY = "$"
 
+l.TIME = "Time"
+
 LANGS["en"] = l
