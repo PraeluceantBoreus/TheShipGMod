@@ -16,7 +16,9 @@ local function drawBar(maxVal, currVal, posx, posy, width, height, round, color,
     if color == nil then color = def_color end
     
     local darkColor = backColor(color)
-    local curr_width = ((currVal/maxVal)*width)
+    local perc = currVal/maxVal
+    if perc > 1 then perc = 1 end
+    local curr_width = (perc*width)
     
     draw.RoundedBox(round, posx, posy, width, height, darkColor)
     if curr_width > 0 then

@@ -107,7 +107,7 @@ function drawHealth()
     
     local bar_padd = 2 * padding
     act_padd = act_padd + bar_height + padding
-    ProgBar.drawBar(client:GetMaxHealth(),client:Health(),bar_padd,act_padd,bar_width,-1,-1,Color(96,0,0,255),LANG.HEALTH.." "..client:Health())
+    ProgBar.drawBar(client:GetMaxHealth(),client:Health(),bar_padd,act_padd,bar_width,-1,-1,Color(130,0,0,255),LANG.HEALTH.." "..client:Health())
     
     act_padd = act_padd + bar_height + padding
     
@@ -133,7 +133,7 @@ local function drawVicInfo()
     local height = right_bars * (bar_height + padding)
     local act_padd = padding
     
-    local bar_padd = ScrW() - (bar_width + padding)
+    local bar_padd = ScrW() - (bar_width + 2 * padding)
     draw.RoundedBox(rounding, bar_padd - padding, act_padd, bar_width + 2 * padding, height, Color(0,0,0,196))
     
     local vname = LANG.ROUND_WAIT
@@ -153,10 +153,14 @@ local function drawVicInfo()
     
     
     if timeLeft == nil then timeLeft = totalTime end
-    
-    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),vname)
+    local minutes = math.floor(timeLeft/60)
+    local seconds = math.floor(timeLeft%60)
+    if seconds < 0 then seconds = 0 end
+    if seconds < 10 then seconds = "0"..seconds end
+    if minutes < 0 then minutes = 0 end
+    ProgBar.drawBar(1,1,bar_padd - padding,act_padd,bar_width,-1,-1,getColor(),vname)
     act_padd = act_padd + bar_height + padding
-    ProgBar.drawBar(totalTime, timeLeft, bar_padd, act_padd, bar_width,-1,-1,getColor(), LANG.TIME..": "..math.floor(timeLeft/60)..":"..math.floor(timeLeft%60))
+    ProgBar.drawBar(totalTime, timeLeft, bar_padd, act_padd, bar_width,-1,-1,getColor(), LANG.TIME..": "..minutes..":"..seconds)
 end
 
 function drawCross()
