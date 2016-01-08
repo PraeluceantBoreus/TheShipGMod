@@ -115,7 +115,7 @@ function drawHealth()
     if money == nil then money = CONF.StartBank end
     
     
-    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1-1,getColor(),LANG.MONEY_CASH..": "..CASH.." "..LANG.MONEY_ECONOMY)
+    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_CASH..": "..CASH.." "..LANG.MONEY_ECONOMY)
     
     act_padd = act_padd + bar_height + padding
     
@@ -156,7 +156,7 @@ local function drawVicInfo()
     
     ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),vname)
     act_padd = act_padd + bar_height + padding
-    ProgBar.draw(timeLeft, totalTime, act_padd, bar_width,-1,-1,getColor(), LANG.TIME..": "..math.floor(timeLeft/60)":"timeLeft%60)
+    ProgBar.drawBar(totalTime, timeLeft, bar_padd, act_padd, bar_width,-1,-1,getColor(), LANG.TIME..": "..math.floor(timeLeft/60)..":"..math.floor(timeLeft%60))
 end
 
 function drawCross()
