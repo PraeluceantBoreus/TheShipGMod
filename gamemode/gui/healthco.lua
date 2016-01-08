@@ -20,7 +20,7 @@ rs_color[R_STATE.FINISHED] = Color(0,127,0,255)
 rs_color[R_STATE.PREPARING] = Color(127,127,127,255)
 rs_color[R_STATE.JOINED] = Color(127,127,127,255)
 
-CASH = CONF.StartCash
+MY_CASH = CONF.StartCash
 BANK = {}
 WEAPONS = {}
 IDENTITIES = {}
@@ -115,7 +115,7 @@ function drawHealth()
     if money == nil then money = CONF.StartBank end
     
     
-    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_CASH..": "..CASH.." "..LANG.MONEY_ECONOMY)
+    ProgBar.drawBar(1,1,bar_padd,act_padd,bar_width,-1,-1,getColor(),LANG.MONEY_CASH..": "..MY_CASH.." "..LANG.MONEY_ECONOMY)
     
     act_padd = act_padd + bar_height + padding
     
@@ -230,7 +230,7 @@ net.Receive("money_init", function()
 end)
 
 net.Receive("money_cash", function()
-    CASH = net.ReadInt(32)
+    MY_CASH = net.ReadInt(32)
 end)
 
 net.Receive("money_bank", function()

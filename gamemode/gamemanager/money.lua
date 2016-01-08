@@ -26,7 +26,7 @@ end
 
 local function sendCash(ply)
     net.Start("money_cash")
-    net.WriteInt(getCash(ply), 16)
+    net.WriteInt(getCash(ply), 32)
     net.Send(ply)
 end
 
