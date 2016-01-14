@@ -241,7 +241,10 @@ net.Receive("money_weapon", function()
     WEAPONS[net.ReadString()] = net.ReadInt(32)
 end)
 
-
+function GM:KeyPress(ply, key)
+    if ply ~= LocalPlayer() then return end
+    print("Key: "..key)
+end
 
 hook.Add("HUDPaint","Health", drawHealth)
 hook.Add("HUDPaint", "VicInfo", drawVicInfo)
